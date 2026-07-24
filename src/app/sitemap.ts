@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { BRAND } from "@/lib/assets";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = BRAND.siteUrl || "https://attention-meme-website.vercel.app";
+  const base = BRAND.siteUrl || "https://www.attention.space";
   const now = new Date();
   return [
     { url: base, lastModified: now, changeFrequency: "weekly", priority: 1 },

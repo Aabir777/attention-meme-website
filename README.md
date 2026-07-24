@@ -46,13 +46,15 @@ Voice uses **ElevenLabs** when configured; otherwise the UI still works without 
 4. Deploy → open the production URL
 5. Optional: attach a custom domain
 
-After the first deploy, set:
+Production domain (when configured): **https://www.attention.space**
+
+Set on Vercel:
 
 ```text
-NEXT_PUBLIC_SITE_URL=https://your-deployment.vercel.app
+NEXT_PUBLIC_SITE_URL=https://www.attention.space
 ```
 
-Redeploy so Open Graph and share links use the real domain.
+Redeploy after env changes so Open Graph and share links use the real domain.
 
 ## Product notes
 

@@ -52,7 +52,7 @@ export function shareSiteOrigin(): string {
     return window.location.origin;
   }
   if (BRAND.siteUrl) return BRAND.siteUrl;
-  return "https://attention-meme-website.vercel.app";
+  return "https://www.attention.space";
 }
 
 /**

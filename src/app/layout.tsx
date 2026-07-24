@@ -21,8 +21,7 @@ const koulen = Koulen({
   subsets: ["latin"],
 });
 
-const siteUrl =
-  BRAND.siteUrl || "https://attention-meme-website.vercel.app";
+const siteUrl = BRAND.siteUrl || "https://www.attention.space";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
