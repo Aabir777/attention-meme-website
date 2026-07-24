@@ -1,0 +1,12 @@
+﻿[
+  {"id":"tpl-n01","name":"Boardroom","src":"/templates/n01.jpg","topText":"EVERYONE WANTS IN","bottomText":"ON $attention"},
+  {"id":"tpl-n02","name":"Join Us","src":"/templates/n02.jpg","topText":"COME WITH ME","bottomText":"PAY ATTENTION"},
+  {"id":"tpl-n03","name":"Hard Choice","src":"/templates/n03.jpg","topText":"HARD CHOICE","bottomText":"BOTH SAY BUY $attention"},
+  {"id":"tpl-n04","name":"Keynote","src":"/templates/n04.jpg","topText":"LADIES AND GENTS","bottomText":"THE FIRST ASSET"},
+  {"id":"tpl-n05","name":"I Surrender","src":"/templates/n05.jpg","topText":"I SURRENDER","bottomText":"TO $attention"},
+  {"id":"tpl-n06","name":"Gala Night","src":"/templates/n06.jpg","topText":"TO THE MOON","bottomText":"PAY ATTENTION"},
+  {"id":"tpl-n07","name":"Still Fine","src":"/templates/n07.jpg","topText":"THIS IS FINE","bottomText":"HOLDING $attention"},
+  {"id":"tpl-n08","name":"Touch Grass","src":"/templates/n08.jpg","topText":"TOUCH GRASS?","bottomText":"I TOUCHED $attention"},
+  {"id":"tpl-n09","name":"Red Pill","src":"/templates/n09.jpg","topText":"RED OR BLUE","bottomText":"PICK $attention"},
+  {"id":"tpl-n10","name":"Town Hall","src":"/templates/n10.jpg","topText":"THE WHOLE TOWN","bottomText":"PAYS ATTENTION"}
+]
