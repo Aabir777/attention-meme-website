@@ -31,13 +31,14 @@ export function Header() {
           <Link href="/" className="nav-link hidden sm:inline">
             Home
           </Link>
-          <Link href="/about" className="nav-link">
+          <Link href="/about" className="nav-link hidden sm:inline">
             About
           </Link>
-          <Link href="/maker?tab=meme" className="nav-link hidden sm:inline">
+          {/* Always visible — core product on mobile */}
+          <Link href="/maker?tab=meme" className="nav-link">
             Memes
           </Link>
-          <Link href="/maker?tab=pfp" className="nav-link hidden md:inline">
+          <Link href="/maker?tab=pfp" className="nav-link">
             PFP
           </Link>
           <Link href="/#talk" className="nav-link hidden lg:inline">
@@ -45,7 +46,7 @@ export function Header() {
           </Link>
           <Link
             href="/stickers"
-            className="ml-1 rounded-full border border-[#f5d547]/40 bg-[#f5d547]/10 px-3.5 py-1.5 text-sm font-semibold text-[#f5d547] shadow-[0_0_20px_rgba(245,213,71,0.14)] transition duration-300 hover:border-[#f5d547]/60 hover:bg-[#f5d547]/18 hover:shadow-[0_0_28px_rgba(245,213,71,0.25)] sm:px-4"
+            className="ml-1 rounded-full border border-[#f5d547]/40 bg-[#f5d547]/10 px-2.5 py-1.5 text-xs font-semibold text-[#f5d547] shadow-[0_0_20px_rgba(245,213,71,0.14)] transition duration-300 hover:border-[#f5d547]/60 hover:bg-[#f5d547]/18 hover:shadow-[0_0_28px_rgba(245,213,71,0.25)] sm:px-4 sm:text-sm"
           >
             Stickers
           </Link>

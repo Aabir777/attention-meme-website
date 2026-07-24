@@ -9,6 +9,30 @@ import {
 export const runtime = "nodejs";
 
 const MAX_CHARS = 500;
+/** Soft per-IP rate limit to protect ElevenLabs credits on public deploys */
+const RATE_WINDOW_MS = 60_000;
+const RATE_MAX = 12;
+const rateHits = new Map<string, { count: number; reset: number }>();
+
+function rateLimit(ip: string): boolean {
+  const now = Date.now();
+  const row = rateHits.get(ip);
+  if (!row || now > row.reset) {
+    rateHits.set(ip, { count: 1, reset: now + RATE_WINDOW_MS });
+    return true;
+  }
+  if (row.count >= RATE_MAX) return false;
+  row.count += 1;
+  return true;
+}
+
+function clientIp(req: Request): string {
+  return (
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    req.headers.get("x-real-ip") ||
+    "unknown"
+  );
+}
 
 const EMOTIONS = new Set<VoiceEmotion>([
   "wild",
@@ -47,6 +71,17 @@ export async function POST(req: Request) {
           hint: "Add ELEVENLABS_API_KEY=sk_... then restart npm run dev",
         },
         { status: 503 }
+      );
+    }
+
+    const ip = clientIp(req);
+    if (!rateLimit(ip)) {
+      return NextResponse.json(
+        {
+          error: "Too many voice requests. Wait a minute and try again.",
+          configured: true,
+        },
+        { status: 429 }
       );
     }
 

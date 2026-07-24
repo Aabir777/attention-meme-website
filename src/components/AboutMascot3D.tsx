@@ -1,6 +1,13 @@
 "use client";
 
-import { Suspense, useCallback, useMemo, useState } from "react";
+import {
+  Suspense,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Stars, useTexture } from "@react-three/drei";
 import * as THREE from "three";
@@ -41,7 +48,8 @@ function GalaxySky() {
  * Photoreal moon under the mascot — real lunar albedo texture.
  */
 function MoonSurface() {
-  const colorMap = useTexture("/textures/space/moon_hi.jpg");
+  // lighter texture for faster mobile loads (moon_hi is ~1MB)
+  const colorMap = useTexture("/textures/space/moon.jpg");
   const radius = 3.55;
 
   useMemo(() => {
@@ -395,10 +403,29 @@ function MoonScene({
 
 /**
  * About hero: mascot on a realistic moon under a milky-way sky.
+ * Canvas + GLB only mount when the stage is near the viewport (perf).
  */
 export function AboutMascot3D() {
   const [reaction, setReaction] = useState<MascotReaction>("idle");
   const [canvasKey, setCanvasKey] = useState(0);
+  const [active, setActive] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el || active) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setActive(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "200px", threshold: 0.05 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [active]);
 
   const onPartClick = useCallback((part: MascotPart) => {
     const next: MascotReaction =
@@ -418,7 +445,7 @@ export function AboutMascot3D() {
   );
 
   return (
-    <div className="relative mx-auto w-full max-w-sm lg:max-w-none">
+    <div ref={rootRef} className="relative mx-auto w-full max-w-sm lg:max-w-none">
       <div className="pointer-events-none absolute -inset-10 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(30,40,80,0.45),transparent_55%)] blur-2xl" />
       <div className="pointer-events-none absolute -inset-4 rounded-full bg-[radial-gradient(ellipse_at_50%_80%,rgba(245,213,71,0.12),transparent_50%)] blur-xl" />
 
@@ -428,38 +455,44 @@ export function AboutMascot3D() {
             className="relative h-full min-h-[340px] w-full sm:min-h-[400px]"
             style={{ touchAction: "none" }}
           >
-            <Canvas
-              key={canvasKey}
-              dpr={[1, 1.75]}
-              camera={camera}
-              gl={{
-                antialias: true,
-                alpha: false,
-                powerPreference: "high-performance",
-                failIfMajorPerformanceCaveat: false,
-              }}
-              onCreated={({ gl }) => {
-                gl.setClearColor("#000005", 1);
-                gl.toneMapping = THREE.ACESFilmicToneMapping;
-                gl.toneMappingExposure = 1.2;
-                gl.domElement.addEventListener(
-                  "webglcontextlost",
-                  (e) => {
-                    e.preventDefault();
-                    setTimeout(() => setCanvasKey((k) => k + 1), 400);
-                  },
-                  false
-                );
-              }}
-              style={{
-                width: "100%",
-                height: "100%",
-                display: "block",
-                background: "#000005",
-              }}
-            >
-              <MoonScene reaction={reaction} onPartClick={onPartClick} />
-            </Canvas>
+            {!active ? (
+              <div className="grid h-full min-h-[340px] place-items-center bg-[#000005] text-sm text-white/40 sm:min-h-[400px]">
+                Loading 3D stage…
+              </div>
+            ) : (
+              <Canvas
+                key={canvasKey}
+                dpr={[1, 1.35]}
+                camera={camera}
+                gl={{
+                  antialias: true,
+                  alpha: false,
+                  powerPreference: "high-performance",
+                  failIfMajorPerformanceCaveat: false,
+                }}
+                onCreated={({ gl }) => {
+                  gl.setClearColor("#000005", 1);
+                  gl.toneMapping = THREE.ACESFilmicToneMapping;
+                  gl.toneMappingExposure = 1.2;
+                  gl.domElement.addEventListener(
+                    "webglcontextlost",
+                    (e) => {
+                      e.preventDefault();
+                      setTimeout(() => setCanvasKey((k) => k + 1), 400);
+                    },
+                    false
+                  );
+                }}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  display: "block",
+                  background: "#000005",
+                }}
+              >
+                <MoonScene reaction={reaction} onPartClick={onPartClick} />
+              </Canvas>
+            )}
           </div>
         </MascotErrorBoundary>
 

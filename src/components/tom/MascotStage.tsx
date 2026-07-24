@@ -200,7 +200,7 @@ export function MascotStage(props: Props) {
       >
         <Canvas
           key={canvasKey}
-          dpr={[1, 1.5]}
+          dpr={[1, 1.25]}
           camera={camera}
           gl={{
             antialias: true,

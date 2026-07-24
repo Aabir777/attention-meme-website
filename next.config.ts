@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Serve large GLB without weird transforms
+  // Serve large GLB + media with long cache (immutable asset hashes in filenames when used)
   headers: async () => [
     {
       source: "/models/:path*",
@@ -10,7 +10,28 @@ const nextConfig: NextConfig = {
         { key: "Content-Type", value: "model/gltf-binary" },
       ],
     },
+    {
+      source: "/mascot/:path*",
+      headers: [
+        {
+          key: "Cache-Control",
+          value: "public, max-age=86400, stale-while-revalidate=604800",
+        },
+      ],
+    },
+    {
+      source: "/pfp-bg/:path*",
+      headers: [
+        {
+          key: "Cache-Control",
+          value: "public, max-age=604800, stale-while-revalidate=2592000",
+        },
+      ],
+    },
   ],
+  images: {
+    formats: ["image/avif", "image/webp"],
+  },
 };
 
 export default nextConfig;

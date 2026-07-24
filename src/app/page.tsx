@@ -94,7 +94,7 @@ export default function HomePage() {
             {[
               {
                 title: "Meme Generator",
-                desc: "Pick a template, edit captions, generate with our mascot, download PNG for CT.",
+                desc: "Full-scene templates, captions, stickers, rotate & resize — download a PNG ready for CT.",
                 href: "/maker?tab=meme",
                 img: "/mascot/pay-attention.png",
                 tag: "Viral",
@@ -108,7 +108,7 @@ export default function HomePage() {
               },
               {
                 title: "PFP Builder",
-                desc: "Pick a pose, lock a gold or void background, export a clean profile pic.",
+                desc: "Layer gear on the mascot, pick stage or beach scenes, drag to fit, export a clean PFP.",
                 href: "/maker?tab=pfp",
                 img: "/mascot/main.png",
                 tag: "Identity",
@@ -226,26 +226,26 @@ export default function HomePage() {
               {
                 step: "01",
                 icon: "◈",
-                title: "Create a wallet",
-                body: "Grab the Robinhood Wallet app or MetaMask and set it up. Guard your seed phrase like it's the last slice of attention.",
+                title: `Get a ${BRAND.walletName} wallet`,
+                body: `Install ${BRAND.walletName} (browser or mobile) and create a wallet. Guard your seed phrase — never share it.`,
               },
               {
                 step: "02",
                 icon: "◎",
-                title: "Get some ETH",
-                body: "Buy or bridge ETH (or the native token) to the Robinhood Chain. Once it's in your wallet, you're ready.",
+                title: `Fund with ${BRAND.chainShort}`,
+                body: `Buy or transfer a little ${BRAND.chainShort} on ${BRAND.chain} for the swap and network fees.`,
               },
               {
                 step: "03",
                 icon: "⇄",
-                title: "Swap for $ATTENTION",
-                body: "Go to the official DEX on Robinhood Chain, paste the $ATTENTION contract address, and swap.",
+                title: `Swap for ${BRAND.ticker}`,
+                body: `Open ${BRAND.dexName}, paste the official contract address when it’s live, and swap ${BRAND.chainShort} → ${BRAND.ticker}.`,
               },
               {
                 step: "04",
                 icon: "★",
                 title: "You are now part of ATTENTION!",
-                body: "Approve the transaction and keep a little gas for the journey. Welcome to the first asset. Pay Attention.",
+                body: "Confirm the transaction, keep a little SOL for gas, and join the timeline. Welcome to the first asset.",
               },
             ].map((item) => (
               <li
@@ -278,18 +278,30 @@ export default function HomePage() {
           </ol>
 
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3 sm:mt-12">
-            <a href="#talk" className="btn-gold">
+            <a
+              href={BRAND.dexUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-gold"
+            >
+              Open {BRAND.dexName}
+            </a>
+            <a href="#talk" className="btn-outline-gold">
               Talk to the mascot
             </a>
             <a
               href={BRAND.twitter}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-outline-gold"
+              className="btn-ghost"
             >
               Follow on X
             </a>
           </div>
+          <p className="mx-auto mt-6 max-w-md text-center text-[11px] leading-relaxed text-white/35">
+            Always verify the contract address from official {BRAND.twitterHandle}{" "}
+            channels. Scams paste fake CAs.
+          </p>
         </div>
       </section>
 
@@ -302,7 +314,7 @@ export default function HomePage() {
                 {BRAND.name}
               </p>
               <p className="mt-1 text-xs text-white/35">
-                {BRAND.tagline}, {BRAND.ticker}
+                {BRAND.tagline}, {BRAND.ticker} · {BRAND.chain}
               </p>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-semibold uppercase tracking-wider text-white/40">
@@ -314,6 +326,9 @@ export default function HomePage() {
               </Link>
               <Link href="/maker?tab=meme" className="hover:text-[#f5d547]">
                 Memes
+              </Link>
+              <Link href="/maker?tab=pfp" className="hover:text-[#f5d547]">
+                PFP
               </Link>
               <Link href="/stickers" className="hover:text-[#f5d547]">
                 Stickers
@@ -330,6 +345,11 @@ export default function HomePage() {
             <p className="text-xs text-white/30">{BRAND.slogan}</p>
           </div>
           <ContractBar variant="compact" />
+          <p className="max-w-2xl text-[10px] leading-relaxed text-white/28">
+            {BRAND.ticker} is a community memecoin on {BRAND.chain}. Nothing on
+            this site is financial advice. Crypto is volatile — only risk what
+            you can afford to lose. DYOR.
+          </p>
         </div>
       </footer>
     </div>

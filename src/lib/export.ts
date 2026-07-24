@@ -46,12 +46,13 @@ export async function downloadFiles(
 
 import { BRAND } from "./assets";
 
-/** Site origin for share links (client-only) */
+/** Site origin for share links — prefer live origin, then env brand URL */
 export function shareSiteOrigin(): string {
   if (typeof window !== "undefined" && window.location?.origin) {
     return window.location.origin;
   }
-  return "https://attention.xyz";
+  if (BRAND.siteUrl) return BRAND.siteUrl;
+  return "https://attention-meme-website.vercel.app";
 }
 
 /**

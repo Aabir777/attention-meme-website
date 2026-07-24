@@ -58,13 +58,42 @@ export const BRAND = {
   primaryMascot: "/mascot/main.png",
   /**
    * Contract address — paste your live CA here, or set
-   * NEXT_PUBLIC_CONTRACT_ADDRESS in .env.local
+   * NEXT_PUBLIC_CONTRACT_ADDRESS in .env.local / Vercel.
    * Leave empty to show “Coming soon”.
    */
   contractAddress: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS?.trim() || "",
+  /** Chain label for buy steps + UI */
+  chain: "Solana",
+  chainShort: "SOL",
+  /** DEX name shown in How to Buy */
+  dexName: "Jupiter",
+  dexUrl: "https://jup.ag",
+  /** Wallet recommendation */
+  walletName: "Phantom",
+  walletUrl: "https://phantom.app",
   /** Optional explorer URL — `{address}` is replaced with the CA */
   explorerUrl: "https://solscan.io/token/{address}",
+  /**
+   * Canonical site URL for OG tags + share links.
+   * Set NEXT_PUBLIC_SITE_URL on Vercel (e.g. https://your-app.vercel.app).
+   */
+  siteUrl: resolveSiteUrl(),
 };
+
+function resolveSiteUrl(): string {
+  const raw = (
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    process.env.VERCEL_PROJECT_PRODUCTION_URL ||
+    process.env.VERCEL_URL ||
+    ""
+  )
+    .toString()
+    .trim()
+    .replace(/\/$/, "");
+  if (!raw) return "";
+  if (/^https?:\/\//i.test(raw)) return raw;
+  return `https://${raw}`;
+}
 
 /** PFP background: solid colors, procedural scenes, or photo scenarios */
 export type PfpBgGroup = "color" | "scene" | "photo";
