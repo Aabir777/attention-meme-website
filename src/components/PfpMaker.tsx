@@ -346,7 +346,7 @@ export function PfpMaker() {
           <section>
             <div className="mb-2 flex items-center justify-between gap-2">
               <h3 className="text-[10px] font-semibold uppercase tracking-wider text-[#f5d547]/90">
-                1 · Expressions ({PFP_EXPRESSIONS.length})
+                1. Expressions ({PFP_EXPRESSIONS.length})
               </h3>
               {expression ? (
                 <button
@@ -411,7 +411,7 @@ export function PfpMaker() {
           <section className="border-t border-white/10 pt-3">
             <div className="mb-2 flex items-center justify-between">
               <h3 className="text-[10px] font-semibold uppercase tracking-wider text-[#f5d547]/90">
-                2 · Costumes ({PFP_COSTUMES.length})
+                2. Costumes ({PFP_COSTUMES.length})
               </h3>
               {costume && !costume.isBase && (
                 <button
@@ -479,7 +479,7 @@ export function PfpMaker() {
           <section className="border-t border-white/10 pt-3">
             <div className="mb-2 flex items-center justify-between gap-2">
               <h3 className="text-[10px] font-semibold uppercase tracking-wider text-[#f5d547]/90">
-                3 · Hats ({PFP_HATS.length})
+                3. Hats ({PFP_HATS.length})
               </h3>
               {hat ? (
                 <button
@@ -548,21 +548,21 @@ export function PfpMaker() {
             <span className="font-semibold text-[#f5d547]">Classic</span>
             {expression ? (
               <>
-                {" · Face: "}
+                {" — Face: "}
                 <span className="text-white/85">{expression.name}</span>
               </>
             ) : (
-              <span className="text-white/40"> · no expression yet</span>
+              <span className="text-white/40"> — no expression yet</span>
             )}
             {costume && !costume.isBase ? (
               <>
-                {" · "}
+                {" — "}
                 <span className="text-white/85">{costume.name}</span>
               </>
             ) : null}
             {hat ? (
               <>
-                {" · "}
+                {" — "}
                 <span className="text-white/85">{hat.name}</span>
               </>
             ) : null}

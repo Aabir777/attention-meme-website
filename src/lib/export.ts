@@ -69,7 +69,7 @@ export function shareToX(text: string, pageUrl?: string) {
 
 /** Meme share — optional caption line + Chog-style credit */
 export function defaultShareText(top?: string, bottom?: string) {
-  const caption = [top, bottom].filter(Boolean).join(" · ");
+  const caption = [top, bottom].filter(Boolean).join(" - ");
   const maker = `${shareSiteOrigin()}/maker`;
   const handle = BRAND.twitterHandle || "@attention_HQ";
   if (caption) {

@@ -121,7 +121,7 @@ export function TalkingMascot() {
   const [reaction, setReaction] = useState<MascotReaction>("idle");
   const [talking, setTalking] = useState(false);
   // Fixed initial bubble — random greetings must only run on client (avoids hydration mismatch)
-  const [bubble, setBubble] = useState("…");
+  const [bubble, setBubble] = useState("Pay Attention.");
   const [heard, setHeard] = useState<string | null>(null);
   const [liveTranscript, setLiveTranscript] = useState("");
   const [text, setText] = useState("");
@@ -133,6 +133,9 @@ export function TalkingMascot() {
   const [sfxOn, setSfxOn] = useState(true);
   const [supported, setSupported] = useState({ mic: false, speak: false });
   const [fx, setFx] = useState<FloatFx[]>([]);
+  /** Defer heavy WebGL/GLB until stage is near viewport — cleaner first open */
+  const [stageReady, setStageReady] = useState(false);
+  const stageMountRef = useRef<HTMLDivElement | null>(null);
 
   const recogRef = useRef<SpeechRecognitionLike | null>(null);
   const busyRef = useRef(false);
@@ -176,6 +179,26 @@ export function TalkingMascot() {
   useEffect(() => {
     voiceOnRef.current = voiceOn;
   }, [voiceOn]);
+
+  useEffect(() => {
+    const el = stageMountRef.current;
+    if (!el) return;
+    if (typeof IntersectionObserver === "undefined") {
+      setStageReady(true);
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setStageReady(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "280px 0px", threshold: 0.01 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   useEffect(() => {
     mountedRef.current = true;
@@ -681,16 +704,30 @@ export function TalkingMascot() {
               </span>
             ))}
 
-            <div className="mascot-hero-frame relative mx-auto aspect-[4/5] w-full max-w-xl min-h-[420px]">
+            <div
+              ref={stageMountRef}
+              className="mascot-hero-frame relative mx-auto aspect-[4/5] w-full max-w-xl min-h-[420px] bg-[#08080c]"
+            >
               <div className="pointer-events-none absolute -inset-6 z-0 rounded-[2.5rem] bg-[radial-gradient(ellipse_at_50%_60%,rgba(245,213,71,0.16),transparent_70%)] blur-2xl" />
               <div className="relative z-[1] h-full min-h-[420px] w-full">
-                <MascotStage
-                  reaction={reaction}
-                  talking={talking}
-                  listening={listening || alwaysOn}
-                  hearing={hearing}
-                  onPartClick={onPartClick}
-                />
+                {stageReady ? (
+                  <MascotStage
+                    reaction={reaction}
+                    talking={talking}
+                    listening={listening || alwaysOn}
+                    hearing={hearing}
+                    onPartClick={onPartClick}
+                  />
+                ) : (
+                  <div className="grid h-full min-h-[420px] place-items-center rounded-3xl border border-white/10 bg-[#0a0a10]">
+                    <div className="flex flex-col items-center gap-2">
+                      <span className="h-2 w-2 animate-pulse rounded-full bg-[#f5d547]" />
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/35">
+                        Loading mascot
+                      </p>
+                    </div>
+                  </div>
+                )}
               </div>
               <div className="stage-glow-ring z-[2]" />
             </div>

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Koulen } from "next/font/google";
 import { Header } from "@/components/Header";
 import { AmbientBackground } from "@/components/AmbientBackground";
@@ -8,20 +8,30 @@ import "./globals.css";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const koulen = Koulen({
   weight: "400",
   variable: "--font-display",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const siteUrl = BRAND.siteUrl || "https://www.attention.space";
+
+export const viewport: Viewport = {
+  themeColor: "#030306",
+  colorScheme: "dark",
+  width: "device-width",
+  initialScale: 1,
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -37,7 +47,7 @@ export const metadata: Metadata = {
     "memecoin",
     "meme maker",
     "pfp",
-    "solana",
+    "robinhood chain",
     "the first asset",
   ],
   authors: [{ name: "ATTENTION" }],
@@ -69,6 +79,17 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  icons: {
+    icon: [
+      { url: "/favicon.png", type: "image/png" },
+      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16.png", sizes: "16x16", type: "image/png" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+    shortcut: ["/favicon.png"],
+  },
 };
 
 export default function RootLayout({
@@ -79,9 +100,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-scroll-behavior="smooth"
       className={`${geistSans.variable} ${geistMono.variable} ${koulen.variable} h-full antialiased`}
+      style={{ backgroundColor: "#030306", colorScheme: "dark" }}
     >
-      <body className="site-shell flex min-h-full flex-col text-[var(--foreground)]">
+      <body
+        className="site-shell flex min-h-full flex-col text-[var(--foreground)]"
+        style={{ backgroundColor: "#030306", color: "#f4f0e6" }}
+      >
         <AmbientBackground />
         <Header />
         <main className="relative z-10 flex-1">{children}</main>

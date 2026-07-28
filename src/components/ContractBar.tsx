@@ -71,7 +71,7 @@ export function ContractBar({ variant = "full", className = "" }: Props) {
             rel="noopener noreferrer"
             className="text-[10px] font-semibold uppercase tracking-wider text-[#f5d547]/80 transition hover:text-[#f5d547]"
           >
-            Buy on {BRAND.dexName} ↗
+            Buy on {BRAND.dexName}
           </a>
         )}
         {explorer && (
@@ -81,7 +81,7 @@ export function ContractBar({ variant = "full", className = "" }: Props) {
             rel="noopener noreferrer"
             className="text-[10px] font-semibold uppercase tracking-wider text-white/40 transition hover:text-[#f5d547]"
           >
-            Explorer ↗
+            Explorer
           </a>
         )}
       </div>
@@ -134,7 +134,7 @@ export function ContractBar({ variant = "full", className = "" }: Props) {
               rel="noopener noreferrer"
               className="shrink-0 rounded-2xl border border-[#f5d547]/40 bg-[#f5d547]/10 px-3.5 py-2.5 text-xs font-semibold text-[#f5d547] transition hover:bg-[#f5d547]/20"
             >
-              Buy on {BRAND.dexName} ↗
+              Buy on {BRAND.dexName}
             </a>
           )}
           {explorer && (
@@ -144,7 +144,7 @@ export function ContractBar({ variant = "full", className = "" }: Props) {
               rel="noopener noreferrer"
               className="shrink-0 rounded-2xl border border-white/12 bg-white/[0.04] px-3.5 py-2.5 text-xs font-semibold text-white/70 transition hover:border-[#f5d547]/40 hover:text-[#f5d547]"
             >
-              Explorer ↗
+              Explorer
             </a>
           )}
         </div>

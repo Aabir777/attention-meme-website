@@ -8,9 +8,9 @@ export default function HomePage() {
   return (
     <div className="relative overflow-hidden">
       {/* ——— HERO ——— */}
-      <section className="relative min-h-[calc(100dvh-4.25rem)]">
-        {/* Atmospheric depth */}
-        <div className="absolute inset-0">
+      <section className="relative min-h-[calc(100dvh-4.25rem)] bg-[#030306]">
+        {/* Atmospheric depth — solid base first so first paint is never blank */}
+        <div className="absolute inset-0 bg-[#030306]">
           <Image
             src={BRAND.hero}
             alt="Attention mascot"
@@ -141,7 +141,7 @@ export default function HomePage() {
                     {card.desc}
                   </p>
                   <p className="mt-4 text-xs font-semibold uppercase tracking-[0.18em] text-[#f5d547]/70 transition group-hover:text-[#f5d547]">
-                    Open →
+                    Open
                   </p>
                 </div>
               </Link>
@@ -314,7 +314,7 @@ export default function HomePage() {
                 {BRAND.name}
               </p>
               <p className="mt-1 text-xs text-white/35">
-                {BRAND.tagline}, {BRAND.ticker} · {BRAND.chain}
+                {BRAND.tagline}, {BRAND.ticker} on {BRAND.chain}
               </p>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-semibold uppercase tracking-wider text-white/40">

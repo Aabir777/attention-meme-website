@@ -23,18 +23,25 @@
   --font-display: var(--font-display);
 }
 
-/* Smooth premium base */
+/* Smooth premium base — dark from first paint (no white flash) */
 html {
   scroll-behavior: smooth;
+  background: #030306;
+  color-scheme: dark;
 }
 
 body {
-  background: var(--background);
+  background: #030306;
   color: var(--foreground);
   font-family: var(--font-geist-sans), system-ui, sans-serif;
   min-height: 100dvh;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Reserve space for fixed header so content doesn't jump under it */
+main {
+  padding-top: 0;
 }
 
 ::selection {
@@ -139,6 +146,10 @@ body {
   .tom-mic-pulse,
   .speech-bubble {
     animation: none !important;
+  }
+  .anim-fade-up {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 
@@ -356,17 +367,27 @@ body {
   }
 }
 
+/*
+ * Hero entrance — default is fully visible so first paint never blanks out
+ * (animation only runs when motion is allowed).
+ */
 .anim-fade-up {
-  animation: fade-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  opacity: 1;
+  transform: none;
 }
-.anim-fade-up-delay-1 {
-  animation-delay: 0.1s;
-}
-.anim-fade-up-delay-2 {
-  animation-delay: 0.2s;
-}
-.anim-fade-up-delay-3 {
-  animation-delay: 0.32s;
+@media (prefers-reduced-motion: no-preference) {
+  .anim-fade-up {
+    animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .anim-fade-up-delay-1 {
+    animation-delay: 0.08s;
+  }
+  .anim-fade-up-delay-2 {
+    animation-delay: 0.16s;
+  }
+  .anim-fade-up-delay-3 {
+    animation-delay: 0.24s;
+  }
 }
 .anim-float {
   animation: soft-float 6s ease-in-out infinite;
@@ -379,7 +400,7 @@ body {
 @keyframes fade-up {
   from {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(14px);
   }
   to {
     opacity: 1;
