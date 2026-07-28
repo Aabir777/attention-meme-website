@@ -28,60 +28,8 @@ export interface MemeScene {
   bottomColor?: string;
 }
 
+/** Full-scene templates only (scene art includes mascot) */
 export const MEME_SCENES: MemeScene[] = [
-  // ——— Quick solid presets (kept) ———
-  {
-    id: "classic-gold",
-    name: "Classic Gold",
-    description: "Black & gold on spotlight",
-    background: { type: "color", value: "#0a0a0a" },
-    mascotId: "main",
-    mascot: { x: 256, y: 275, scale: 2.15 },
-    topText: "Everything valuable",
-    bottomText: "begins with attention",
-    topColor: "#ffffff",
-    bottomColor: "#f5d547",
-  },
-  {
-    id: "first-asset",
-    name: "First Asset",
-    description: "Brand stage backdrop",
-    background: { type: "image", value: "/mascot/hero-glow.png" },
-    mascotId: "main",
-    mascot: { x: 380, y: 300, scale: 1.55 },
-    topText: "THE FIRST ASSET",
-    bottomText: "$attention",
-    topColor: "#ffffff",
-    bottomColor: "#f5d547",
-  },
-  {
-    id: "ct-raid",
-    name: "CT Raid",
-    description: "Classic black meme bars",
-    background: { type: "color", value: "#ffffff" },
-    mascotId: "main",
-    mascot: { x: 256, y: 270, scale: 1.9 },
-    topText: "POV: YOU JUST",
-    bottomText: "DISCOVERED ATTENTION",
-    topColor: "#ffffff",
-    bottomColor: "#ffffff",
-    topY: 40,
-    bottomY: 445,
-  },
-  {
-    id: "own-it",
-    name: "Own It",
-    description: "Manifesto energy",
-    background: { type: "color", value: "#0a0a0a" },
-    mascotId: "main",
-    mascot: { x: 256, y: 285, scale: 2.0 },
-    topText: "MOST PEOPLE LOOK",
-    bottomText: "FEW NOTICE",
-    topColor: "#ffffff",
-    bottomColor: "#f5d547",
-  },
-
-  // ——— New full-scene templates (Desktop/TEMPLATES NEW) ———
   {
     id: "tpl-n01",
     name: "Boardroom",

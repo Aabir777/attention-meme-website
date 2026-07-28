@@ -29,8 +29,8 @@ export function MakerApp() {
           </h1>
           <p className="mt-2 max-w-xl text-sm text-white/55 sm:text-base">
             {tab === "meme"
-              ? "Generate Attention mascot memes in one click. Templates, captions, download. Built for CT raids."
-              : "Build a clean Attention profile picture with official mascot poses."}
+              ? "Pick a scene template, edit captions, download a PNG. Built for CT."
+              : "Classic mascot starts blank. Expression, costume, then hat — download a clean PFP."}
           </p>
         </div>
 

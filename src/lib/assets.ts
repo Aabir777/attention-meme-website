@@ -25,16 +25,9 @@ export const MASCOTS: MascotPose[] = [
     sticker: true,
     description: "Signature Attention mascot",
   },
-  {
-    id: "sketch",
-    name: "Sketch",
-    src: "/mascot/sketch.png",
-    pfpSrc: "/mascot/sketch-cutout.png",
-    pfp: true,
-    sticker: true,
-    description: "Pencil concept art",
-  },
 ];
+// Base mascot PNGs refreshed from Desktop/New folder (2)
+
 
 export const BRAND = {
   name: "ATTENTION",
@@ -57,22 +50,24 @@ export const BRAND = {
   manifesto: "/mascot/manifesto.png",
   primaryMascot: "/mascot/main.png",
   /**
-   * Contract address — paste your live CA here, or set
-   * NEXT_PUBLIC_CONTRACT_ADDRESS in .env.local / Vercel.
-   * Leave empty to show “Coming soon”.
+   * Contract address — set NEXT_PUBLIC_CONTRACT_ADDRESS to override.
+   * Live CA (Robinhood Chain / Pons launchpad).
    */
-  contractAddress: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS?.trim() || "",
+  contractAddress:
+    process.env.NEXT_PUBLIC_CONTRACT_ADDRESS?.trim() ||
+    "0x24D73f200DaAB76eDA015FabCA1Ee09Fe73fdA14",
   /** Chain label for buy steps + UI */
-  chain: "Solana",
-  chainShort: "SOL",
-  /** DEX name shown in How to Buy */
-  dexName: "Jupiter",
-  dexUrl: "https://jup.ag",
+  chain: "Robinhood Chain",
+  chainShort: "ETH",
+  /** Launchpad / buy venue (How to Buy CTA) */
+  dexName: "Pons",
+  dexUrl:
+    "https://www.ponsfamily.com/launchpad/0x24D73f200DaAB76eDA015FabCA1Ee09Fe73fdA14",
   /** Wallet recommendation */
-  walletName: "Phantom",
-  walletUrl: "https://phantom.app",
-  /** Optional explorer URL — `{address}` is replaced with the CA */
-  explorerUrl: "https://solscan.io/token/{address}",
+  walletName: "Robinhood Wallet",
+  walletUrl: "https://robinhood.com/wallet",
+  /** Optional explorer URL — `{address}` is replaced with the CA (empty = hide) */
+  explorerUrl: "",
   /**
    * Canonical site URL for OG tags + share links.
    * Set NEXT_PUBLIC_SITE_URL on Vercel (e.g. https://your-app.vercel.app).

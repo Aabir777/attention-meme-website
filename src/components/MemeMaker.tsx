@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import {
   useCallback,
@@ -15,8 +15,7 @@ import {
   type CaptionPackId,
   type MemeScene,
 } from "@/lib/memeScenes";
-import { STICKERS, memePanelStickers, PACK_STICKERS } from "@/lib/stickers";
-import { getMascot, stickerMascots } from "@/lib/assets";
+
 import {
   DEFAULT_FONT_SIZE,
   DEFAULT_MEME_FONT_ID,
@@ -31,14 +30,8 @@ import {
   defaultShareText,
   downloadCanvas,
   shareToX,
-  uid,
 } from "@/lib/export";
-import {
-  assetUrl,
-  clearImageCache,
-  loadImage,
-  preloadImages,
-} from "@/lib/traits";
+import { clearImageCache, loadImage, preloadImages } from "@/lib/traits";
 import Link from "next/link";
 
 type LayerKind = "sticker" | "text";
@@ -209,7 +202,7 @@ function layoutCaption(
   if (lines.length > maxLines) {
     lines = lines.slice(0, maxLines);
     const last = lines[maxLines - 1];
-    if (last.length > 3) lines[maxLines - 1] = `${last.slice(0, -2)}…`;
+    if (last.length > 3) lines[maxLines - 1] = `${last.slice(0, -2)}...`;
   }
 
   // Extra air between lines so bottom text stays readable
@@ -254,7 +247,7 @@ function drawCaption(
   ctx.lineCap = "round";
   ctx.miterLimit = 2;
 
-  // Thin outline — thick strokes made bottom text look muddy
+  // Thin outline - thick strokes made bottom text look muddy
   const strokeW = Math.max(1.75, Math.min(3.2, size * 0.065));
   ctx.lineWidth = strokeW;
   ctx.strokeStyle = layer.stroke ?? "#000000";
@@ -306,10 +299,8 @@ function clamp(n: number, min: number, max: number) {
 
 function resolveStickerSrc(stickerId: string | undefined): string | null {
   if (!stickerId) return null;
-  const pack = STICKERS.find((s) => s.id === stickerId);
-  if (pack) return pack.src;
-  const mascot = getMascot(stickerId);
-  return mascot?.src ?? null;
+  // Scene templates embed the mascot; layered stickers are disabled in this generator
+  return null;
 }
 
 export function MemeMaker() {
@@ -335,9 +326,7 @@ export function MemeMaker() {
   );
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [draggingId, setDraggingId] = useState<string | null>(null);
-  const [panel, setPanel] = useState<
-    "templates" | "mascot" | "stickers" | "edit" | "upload"
-  >("templates");
+  const [panel, setPanel] = useState<"templates" | "upload">("templates");
   const [captionPack, setCaptionPack] = useState<CaptionPackId | "all">("all");
   const [captionFontId, setCaptionFontId] = useState(DEFAULT_MEME_FONT_ID);
   const [captionFontSize, setCaptionFontSize] = useState(DEFAULT_FONT_SIZE);
@@ -354,11 +343,7 @@ export function MemeMaker() {
 
   const topLayer = layers.find((l) => l.role === "top");
   const bottomLayer = layers.find((l) => l.role === "bottom");
-  const mascotLayer = layers.find((l) => l.id === "mascot_main");
   const selected = layers.find((l) => l.id === selectedId) ?? null;
-  const extraStickers = layers.filter(
-    (l) => l.kind === "sticker" && l.role === "extra"
-  );
 
   const applyScene = (scene: MemeScene) => {
     setSceneId(scene.id);
@@ -370,11 +355,8 @@ export function MemeMaker() {
   const generateRandom = () => {
     const scene = randomScene();
     const caption = randomCaption(captionPack);
-    const mascots = stickerMascots();
-    const mascot = mascots[Math.floor(Math.random() * mascots.length)];
     applyScene({
       ...scene,
-      mascotId: mascot.id,
       topText: caption.top,
       bottomText: caption.bottom,
     });
@@ -400,10 +382,10 @@ export function MemeMaker() {
       objectUrlRef.current = null;
     }
     setUploadHint(null);
-    const scene =
-      MEME_SCENES.find((s) => s.id === "classic-gold") ?? MEME_SCENES[0];
+    const scene = MEME_SCENES[0];
     setBg(bgFromScene(scene));
     setSceneId(scene.id);
+    setLayers(layersFromScene(scene, captionFontId, captionFontSize));
   };
 
   const paint = useCallback(async () => {
@@ -561,13 +543,9 @@ export function MemeMaker() {
 
   useEffect(() => {
     clearImageCache();
-    const srcs = [
-      ...stickerMascots().map((m) => m.src),
-      ...PACK_STICKERS.map((s) => s.src),
-      ...MEME_SCENES.filter((s) => s.background.type === "image").map(
-        (s) => s.background.value
-      ),
-    ];
+    const srcs = MEME_SCENES.filter((s) => s.background.type === "image").map(
+      (s) => s.background.value
+    );
     void preloadImages(srcs).then(() => schedulePaint());
   }, [schedulePaint]);
 
@@ -612,90 +590,7 @@ export function MemeMaker() {
     applySizeToCaptions(n);
   };
 
-  const setMascotPose = (mascotId: string) => {
-    setLayers((prev) => {
-      const has = prev.some((l) => l.id === "mascot_main");
-      if (has) {
-        return prev.map((l) =>
-          l.id === "mascot_main" ? { ...l, stickerId: mascotId } : l
-        );
-      }
-      return [
-        ...prev,
-        {
-          id: "mascot_main",
-          kind: "sticker",
-          stickerId: mascotId,
-          x: 256,
-          y: 280,
-          scale: 2,
-          rotation: 0,
-        },
-      ];
-    });
-    setSelectedId("mascot_main");
-  };
 
-  /** Remove main mascot from the meme (user can add it back from Mascot tab) */
-  const clearMascot = () => {
-    setLayers((prev) => prev.filter((l) => l.id !== "mascot_main"));
-    if (selectedId === "mascot_main") setSelectedId(null);
-  };
-
-  const addSticker = (stickerId: string) => {
-    const layer: MemeLayer = {
-      id: uid("sticker"),
-      kind: "sticker",
-      stickerId,
-      role: "extra",
-      x: 256 + (Math.random() * 40 - 20),
-      y: 240 + (Math.random() * 40 - 20),
-      scale: 1.1,
-      rotation: 0,
-    };
-    setLayers((prev) => [...prev, layer]);
-    setSelectedId(layer.id);
-    // stay on stickers panel — don't jump to edit
-  };
-
-  const updateSelected = (patch: Partial<MemeLayer>) => {
-    if (!selectedId) return;
-    setLayers((prev) =>
-      prev.map((l) => (l.id === selectedId ? { ...l, ...patch } : l))
-    );
-  };
-
-  const nudgeSelectedScale = (delta: number) => {
-    if (!selected || selected.kind !== "sticker") return;
-    const next = Math.min(3.5, Math.max(0.15, +(selected.scale + delta).toFixed(2)));
-    updateSelected({ scale: next });
-  };
-
-  const nudgeSelectedRotation = (delta: number) => {
-    if (!selected || selected.kind !== "sticker") return;
-    let next = selected.rotation + delta;
-    // keep in -180..180
-    while (next > 180) next -= 360;
-    while (next < -180) next += 360;
-    updateSelected({ rotation: Math.round(next) });
-  };
-
-  const removeLayer = (id: string) => {
-    const layer = layersRef.current.find((l) => l.id === id);
-    if (!layer) return;
-    if (layer.id === "mascot_main") {
-      clearMascot();
-      return;
-    }
-    if (layer.role === "top" || layer.role === "bottom") {
-      setLayers((prev) =>
-        prev.map((l) => (l.id === id ? { ...l, text: "" } : l))
-      );
-      return;
-    }
-    setLayers((prev) => prev.filter((l) => l.id !== id));
-    if (selectedId === id) setSelectedId(null);
-  };
 
   const clientToCanvas = (clientX: number, clientY: number) => {
     const stage = stageRef.current;
@@ -710,7 +605,7 @@ export function MemeMaker() {
   };
 
   const onPointerDown = (e: ReactPointerEvent<HTMLDivElement>) => {
-    // Don't start drag when tapping the delete ×
+    // Don't start drag when tapping the delete control
     if ((e.target as HTMLElement).closest("[data-sticker-delete]")) return;
 
     const { x, y } = clientToCanvas(e.clientX, e.clientY);
@@ -800,10 +695,10 @@ export function MemeMaker() {
             <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#f5d547]/80">
               Meme generator
             </span>
-            <span className="text-[11px] text-white/35">512×512 PNG</span>
+            <span className="text-[11px] text-white/35">512x512 PNG</span>
           </div>
 
-          {/* Canvas + delete × on selected sticker only */}
+          {/* Canvas preview */}
           <div
             ref={stageRef}
             className="relative aspect-square select-none overflow-hidden rounded-2xl bg-[#111]"
@@ -822,169 +717,7 @@ export function MemeMaker() {
               width={CANVAS}
               height={CANVAS}
             />
-
-            {/* Red × — selected sticker OR mascot (easy remove / cancel) */}
-            {selected?.kind === "sticker" &&
-              (() => {
-                const sidePct = Math.min(
-                  42,
-                  Math.max(16, ((STICKER_BOX * selected.scale) / CANVAS) * 100)
-                );
-                const left = (selected.x / CANVAS) * 100;
-                const top = (selected.y / CANVAS) * 100;
-                const isMascot = selected.id === "mascot_main";
-                return (
-                  <button
-                    type="button"
-                    data-sticker-delete
-                    title={isMascot ? "Remove mascot" : "Remove sticker"}
-                    aria-label={isMascot ? "Remove mascot" : "Remove sticker"}
-                    onPointerDown={(e) => {
-                      e.stopPropagation();
-                      e.preventDefault();
-                    }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      removeLayer(selected.id);
-                    }}
-                    className="absolute z-20 grid h-7 w-7 place-items-center rounded-full bg-red-500 text-base font-bold leading-none text-white shadow-md shadow-black/50 transition hover:scale-110 hover:bg-red-400"
-                    style={{
-                      left: `calc(${left}% + ${sidePct / 2}%)`,
-                      top: `calc(${top}% - ${sidePct / 2}%)`,
-                      transform: "translate(-50%, -50%)",
-                    }}
-                  >
-                    ×
-                  </button>
-                );
-              })()}
           </div>
-
-          {/* Selected sticker size + rotation — under canvas when a sticker is active */}
-          {selected?.kind === "sticker" && (
-            <div className="mt-3 rounded-2xl border border-[#f5d547]/25 bg-[#f5d547]/5 px-3 py-2.5">
-              <div className="mb-1.5 flex items-center justify-between gap-2">
-                <p className="text-[10px] font-semibold uppercase tracking-wider text-[#f5d547]">
-                  Sticker
-                  {selected.role === "extra"
-                    ? ` · ${
-                        STICKERS.find((d) => d.id === selected.stickerId)?.name ??
-                        "Sticker"
-                      }`
-                    : " · Mascot"}
-                </p>
-                <button
-                  type="button"
-                  onClick={() =>
-                    updateSelected({
-                      scale: selected.role === "extra" ? 1.1 : 2,
-                      rotation: 0,
-                    })
-                  }
-                  className="text-[10px] font-semibold text-white/45 hover:text-white"
-                >
-                  Reset
-                </button>
-              </div>
-              <div className="flex flex-wrap items-center gap-2">
-                <button
-                  type="button"
-                  title="Smaller"
-                  onClick={() => nudgeSelectedScale(-0.1)}
-                  className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/15 bg-black/40 text-lg font-bold text-white hover:border-[#f5d547]/50 hover:bg-[#f5d547]/10"
-                >
-                  −
-                </button>
-                <label className="min-w-0 flex-1 flex flex-col gap-0.5 text-[10px] uppercase tracking-wider text-white/40">
-                  <span className="tabular-nums text-white/55">
-                    Size {selected.scale.toFixed(2)}×
-                  </span>
-                  <input
-                    type="range"
-                    min={0.15}
-                    max={3.5}
-                    step={0.05}
-                    value={selected.scale}
-                    onChange={(e) =>
-                      updateSelected({ scale: Number(e.target.value) })
-                    }
-                    className="w-full accent-[#f5d547]"
-                  />
-                </label>
-                <button
-                  type="button"
-                  title="Bigger"
-                  onClick={() => nudgeSelectedScale(0.1)}
-                  className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/15 bg-black/40 text-lg font-bold text-white hover:border-[#f5d547]/50 hover:bg-[#f5d547]/10"
-                >
-                  +
-                </button>
-                <button
-                  type="button"
-                  title={
-                    selected.id === "mascot_main"
-                      ? "Remove mascot"
-                      : "Remove sticker"
-                  }
-                  onClick={() => removeLayer(selected.id)}
-                  className="ml-auto rounded-full border border-red-500/30 bg-red-500/10 px-3 py-1.5 text-[11px] font-semibold text-red-400 hover:bg-red-500/20"
-                >
-                  {selected.id === "mascot_main" ? "Remove mascot" : "Remove"}
-                </button>
-              </div>
-              <div className="mt-2 flex flex-wrap items-center gap-2">
-                <button
-                  type="button"
-                  title="Rotate left"
-                  onClick={() => nudgeSelectedRotation(-15)}
-                  className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/15 bg-black/40 text-sm font-bold text-white hover:border-[#f5d547]/50 hover:bg-[#f5d547]/10"
-                >
-                  ↺
-                </button>
-                <label className="min-w-0 flex-1 flex flex-col gap-0.5 text-[10px] uppercase tracking-wider text-white/40">
-                  <span className="tabular-nums text-white/55">
-                    Rotate {selected.rotation}°
-                  </span>
-                  <input
-                    type="range"
-                    min={-180}
-                    max={180}
-                    step={1}
-                    value={selected.rotation}
-                    onChange={(e) =>
-                      updateSelected({ rotation: Number(e.target.value) })
-                    }
-                    className="w-full accent-[#f5d547]"
-                  />
-                </label>
-                <button
-                  type="button"
-                  title="Rotate right"
-                  onClick={() => nudgeSelectedRotation(15)}
-                  className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/15 bg-black/40 text-sm font-bold text-white hover:border-[#f5d547]/50 hover:bg-[#f5d547]/10"
-                >
-                  ↻
-                </button>
-                <div className="flex gap-1">
-                  {([-45, 0, 45, 90] as const).map((deg) => (
-                    <button
-                      key={deg}
-                      type="button"
-                      title={`${deg}°`}
-                      onClick={() => updateSelected({ rotation: deg })}
-                      className={`rounded-full border px-2 py-1 text-[10px] font-semibold ${
-                        selected.rotation === deg
-                          ? "border-[#f5d547] bg-[#f5d547]/15 text-[#f5d547]"
-                          : "border-white/10 bg-black/30 text-white/65 hover:border-white/25"
-                      }`}
-                    >
-                      {deg}°
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Captions */}
@@ -1037,7 +770,7 @@ export function MemeMaker() {
                 className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-white/10 bg-black/40 text-lg font-semibold text-white/80 transition hover:border-white/25"
                 aria-label="Decrease size"
               >
-                −
+                -
               </button>
               <div className="relative flex-1">
                 <input
@@ -1175,24 +908,24 @@ export function MemeMaker() {
           </button>
         </div>
         <p className="max-w-lg text-center text-xs text-white/45">
-          Pick a template, write captions, add stickers, then download.{" "}
+          Pick a template, edit captions, download. Want stickers?{" "}
           <Link
             href="/stickers"
             className="text-[#f5d547] underline-offset-2 hover:underline"
           >
-            Free stickers
+            Free sticker pack
           </Link>
         </p>
       </div>
 
-      {/* Side panel */}
+      {/* Side panel - templates + optional custom background */}
       <div className="flex max-h-[min(92vh,900px)] flex-col gap-3 overflow-hidden rounded-3xl border border-white/10 bg-[#121212]/95 p-4">
         <div className="shrink-0">
           <h2 className="font-display text-lg uppercase tracking-wide text-white">
             Build your meme
           </h2>
           <p className="mt-1 text-sm text-white/50">
-            Templates, mascot, stickers. Download when ready.
+            Choose a scene template, edit captions, download PNG.
           </p>
         </div>
 
@@ -1200,10 +933,7 @@ export function MemeMaker() {
           {(
             [
               ["templates", "Templates"],
-              ["mascot", "Mascot"],
-              ["stickers", "Stickers"],
               ["upload", "Upload"],
-              ["edit", "Edit"],
             ] as const
           ).map(([id, label]) => (
             <button
@@ -1226,9 +956,6 @@ export function MemeMaker() {
             <div className="grid grid-cols-2 gap-2.5">
               {MEME_SCENES.map((scene) => {
                 const active = sceneId === scene.id;
-                const thumb = getMascot(scene.mascotId)?.src;
-                const isBars = scene.id === "ct-raid";
-                const isFullScene = scene.showMascot === false;
                 const bgStyle =
                   scene.background.type === "color"
                     ? scene.background.value
@@ -1245,33 +972,17 @@ export function MemeMaker() {
                     }`}
                   >
                     <div
-                      className={`relative flex aspect-square w-full items-center justify-center overflow-hidden ${
-                        isFullScene ? "p-0" : "p-3"
-                      }`}
+                      className="relative flex aspect-square w-full items-center justify-center overflow-hidden p-0"
                       style={{
-                        background: isBars
-                          ? `linear-gradient(#000 0 14%, ${bgStyle} 14% 86%, #000 86% 100%)`
-                          : bgStyle,
+                        background: bgStyle,
                         backgroundImage:
                           scene.background.type === "image"
-                            ? isFullScene
-                              ? `url(${scene.background.value})`
-                              : `linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3)), url(${scene.background.value})`
+                            ? `url(${scene.background.value})`
                             : undefined,
                         backgroundSize: "cover",
                         backgroundPosition: "center",
                       }}
-                    >
-                      {thumb && !isFullScene && (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          src={thumb}
-                          alt=""
-                          className="max-h-[70%] max-w-[70%] object-contain"
-                          draggable={false}
-                        />
-                      )}
-                    </div>
+                    />
                     <div className="border-t border-white/5 p-2">
                       <div
                         className={`text-xs font-bold ${
@@ -1280,6 +991,9 @@ export function MemeMaker() {
                       >
                         {scene.name}
                       </div>
+                      <p className="mt-0.5 line-clamp-1 text-[10px] text-white/40">
+                        {scene.description}
+                      </p>
                     </div>
                   </button>
                 );
@@ -1287,249 +1001,10 @@ export function MemeMaker() {
             </div>
           )}
 
-          {panel === "mascot" && (
-            <div>
-              <div className="mb-2 flex items-center justify-between gap-2">
-                <p className="text-xs text-white/45">
-                  Pick a pose, or cancel with × / None.
-                </p>
-                {mascotLayer && (
-                  <button
-                    type="button"
-                    title="Remove mascot"
-                    onClick={clearMascot}
-                    className="rounded-full border border-red-500/35 bg-red-500/10 px-2.5 py-1 text-[11px] font-semibold text-red-400 hover:bg-red-500/20"
-                  >
-                    × Remove
-                  </button>
-                )}
-              </div>
-              <div className="grid grid-cols-2 gap-2">
-                {/* None / cancel mascot */}
-                <button
-                  type="button"
-                  title="No mascot"
-                  onClick={clearMascot}
-                  className={`flex flex-col items-center rounded-2xl border p-2 transition ${
-                    !mascotLayer
-                      ? "border-[#f5d547] bg-[#f5d547]/10"
-                      : "border-white/10 bg-black/30 hover:border-white/25"
-                  }`}
-                >
-                  <div className="grid aspect-square w-full place-items-center rounded-xl bg-[#16161c] text-3xl font-bold text-white/35">
-                    ×
-                  </div>
-                  <span
-                    className={`mt-1 block text-center text-xs font-semibold ${
-                      !mascotLayer ? "text-[#f5d547]" : "text-white/70"
-                    }`}
-                  >
-                    None
-                  </span>
-                </button>
-
-                {stickerMascots().map((m) => {
-                  const active = mascotLayer?.stickerId === m.id;
-                  return (
-                    <div key={m.id} className="relative">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          if (active) {
-                            clearMascot();
-                            return;
-                          }
-                          setMascotPose(m.id);
-                        }}
-                        className={`w-full rounded-2xl border p-2 transition ${
-                          active
-                            ? "border-[#f5d547] bg-[#f5d547]/10"
-                            : "border-white/10 bg-black/30 hover:border-white/25"
-                        }`}
-                      >
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={m.src}
-                          alt={m.name}
-                          className="aspect-square w-full rounded-xl bg-[#16161c] object-contain p-1"
-                        />
-                        <span
-                          className={`mt-1 block text-center text-xs font-semibold ${
-                            active ? "text-[#f5d547]" : "text-white/70"
-                          }`}
-                        >
-                          {m.name}
-                        </span>
-                      </button>
-                      {active && (
-                        <button
-                          type="button"
-                          title="Remove mascot"
-                          aria-label="Remove mascot"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            clearMascot();
-                          }}
-                          className="absolute -right-1.5 -top-1.5 z-10 grid h-7 w-7 place-items-center rounded-full bg-red-500 text-base font-bold leading-none text-white shadow-md shadow-black/50 transition hover:scale-110 hover:bg-red-400"
-                        >
-                          ×
-                        </button>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {panel === "stickers" && (
-            <div>
-              <p className="mb-2 text-xs text-white/45">
-                Tap to add. Drag to move. Resize and rotate under the preview or below.
-              </p>
-
-              {selected?.kind === "sticker" && selected.role === "extra" && (
-                <div className="mb-3 rounded-2xl border border-[#f5d547]/25 bg-[#f5d547]/5 p-3">
-                  <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-[#f5d547]">
-                    Selected:{" "}
-                    {STICKERS.find((d) => d.id === selected.stickerId)?.name ??
-                      "Sticker"}
-                  </p>
-                  <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      title="Minimize"
-                      onClick={() => nudgeSelectedScale(-0.15)}
-                      className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/15 bg-black/40 text-lg font-bold text-white hover:border-[#f5d547]/50"
-                    >
-                      −
-                    </button>
-                    <label className="min-w-0 flex-1 flex flex-col gap-0.5 text-[10px] uppercase text-white/40">
-                      Size {selected.scale.toFixed(2)}×
-                      <input
-                        type="range"
-                        min={0.15}
-                        max={3.5}
-                        step={0.05}
-                        value={selected.scale}
-                        onChange={(e) =>
-                          updateSelected({ scale: Number(e.target.value) })
-                        }
-                        className="w-full accent-[#f5d547]"
-                      />
-                    </label>
-                    <button
-                      type="button"
-                      title="Bigger"
-                      onClick={() => nudgeSelectedScale(0.15)}
-                      className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/15 bg-black/40 text-lg font-bold text-white hover:border-[#f5d547]/50"
-                    >
-                      +
-                    </button>
-                  </div>
-                  <div className="mt-2 flex items-center gap-2">
-                    <button
-                      type="button"
-                      title="Rotate left"
-                      onClick={() => nudgeSelectedRotation(-15)}
-                      className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/15 bg-black/40 text-sm font-bold text-white hover:border-[#f5d547]/50"
-                    >
-                      ↺
-                    </button>
-                    <label className="min-w-0 flex-1 flex flex-col gap-0.5 text-[10px] uppercase text-white/40">
-                      Rotate {selected.rotation}°
-                      <input
-                        type="range"
-                        min={-180}
-                        max={180}
-                        step={1}
-                        value={selected.rotation}
-                        onChange={(e) =>
-                          updateSelected({ rotation: Number(e.target.value) })
-                        }
-                        className="w-full accent-[#f5d547]"
-                      />
-                    </label>
-                    <button
-                      type="button"
-                      title="Rotate right"
-                      onClick={() => nudgeSelectedRotation(15)}
-                      className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/15 bg-black/40 text-sm font-bold text-white hover:border-[#f5d547]/50"
-                    >
-                      ↻
-                    </button>
-                  </div>
-                  <div className="mt-2 flex flex-wrap gap-1.5">
-                    {([-90, -45, 0, 45, 90, 180] as const).map((deg) => (
-                      <button
-                        key={deg}
-                        type="button"
-                        onClick={() => updateSelected({ rotation: deg })}
-                        className={`rounded-full border px-2 py-1 text-[10px] font-semibold ${
-                          selected.rotation === deg
-                            ? "border-[#f5d547] bg-[#f5d547]/15 text-[#f5d547]"
-                            : "border-white/10 bg-black/30 text-white/70 hover:border-white/25"
-                        }`}
-                      >
-                        {deg}°
-                      </button>
-                    ))}
-                    <button
-                      type="button"
-                      onClick={() => updateSelected({ scale: 0.45 })}
-                      className="rounded-full border border-white/10 bg-black/30 px-2.5 py-1 text-[10px] font-semibold text-white/70 hover:border-white/25"
-                    >
-                      Tiny
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => updateSelected({ scale: 1.1 })}
-                      className="rounded-full border border-white/10 bg-black/30 px-2.5 py-1 text-[10px] font-semibold text-white/70 hover:border-white/25"
-                    >
-                      Normal
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => removeLayer(selected.id)}
-                      className="ml-auto rounded-full border border-red-500/30 bg-red-500/10 px-2.5 py-1 text-[10px] font-semibold text-red-400 hover:bg-red-500/20"
-                    >
-                      Remove
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
-                {memePanelStickers().map((s) => (
-                  <button
-                    key={s.id}
-                    type="button"
-                    title={`Add ${s.name}`}
-                    onClick={() => addSticker(s.id)}
-                    className="group rounded-xl border border-white/10 bg-[#0c0c10] p-2 transition hover:border-[#f5d547]/55 hover:bg-[#f5d547]/8 active:scale-[0.97]"
-                  >
-                    <div className="aspect-square overflow-hidden rounded-lg bg-[#16161c]">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={assetUrl(s.src)}
-                        alt={s.name}
-                        loading="lazy"
-                        className="h-full w-full object-contain p-1.5 transition group-hover:scale-105"
-                      />
-                    </div>
-                    <span className="mt-1.5 block truncate text-center text-[10px] font-medium text-white/55 group-hover:text-[#f5d547]">
-                      {s.name}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-
           {panel === "upload" && (
             <div className="space-y-3">
               <p className="text-xs text-white/45">
-                Upload a custom background. Captions and mascot stay on top.
+                Optional custom background. Captions stay on top.
               </p>
               <input
                 ref={fileInputRef}
@@ -1557,149 +1032,6 @@ export function MemeMaker() {
               >
                 Clear upload
               </button>
-            </div>
-          )}
-
-          {panel === "edit" && (
-            <div className="space-y-4">
-              {mascotLayer && (
-                <label className="flex flex-col gap-1 text-[10px] uppercase tracking-wider text-white/40">
-                  Mascot size: {mascotLayer.scale.toFixed(2)}
-                  <input
-                    type="range"
-                    min={0.6}
-                    max={3.2}
-                    step={0.05}
-                    value={mascotLayer.scale}
-                    onChange={(e) =>
-                      setLayers((prev) =>
-                        prev.map((l) =>
-                          l.id === "mascot_main"
-                            ? { ...l, scale: Number(e.target.value) }
-                            : l
-                        )
-                      )
-                    }
-                    className="w-full accent-[#f5d547]"
-                  />
-                </label>
-              )}
-
-              {selected && selected.kind === "sticker" && (
-                <div className="rounded-2xl border border-white/10 bg-black/40 p-3">
-                  <p className="mb-2 text-xs font-semibold text-white/70">
-                    Selected sticker
-                  </p>
-                  <div className="mb-2 flex items-center gap-2">
-                    <button
-                      type="button"
-                      title="Smaller"
-                      onClick={() => nudgeSelectedScale(-0.1)}
-                      className="grid h-8 w-8 place-items-center rounded-full border border-white/15 bg-black/40 text-base font-bold text-white hover:border-[#f5d547]/50"
-                    >
-                      −
-                    </button>
-                    <button
-                      type="button"
-                      title="Bigger"
-                      onClick={() => nudgeSelectedScale(0.1)}
-                      className="grid h-8 w-8 place-items-center rounded-full border border-white/15 bg-black/40 text-base font-bold text-white hover:border-[#f5d547]/50"
-                    >
-                      +
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => updateSelected({ scale: 0.45 })}
-                      className="rounded-full border border-white/10 px-2 py-1 text-[10px] font-semibold text-white/65 hover:border-white/25"
-                    >
-                      Tiny
-                    </button>
-                  </div>
-                  <label className="flex flex-col gap-1 text-[10px] uppercase text-white/40">
-                    Size: {selected.scale.toFixed(2)}×
-                    <input
-                      type="range"
-                      min={0.15}
-                      max={3.5}
-                      step={0.05}
-                      value={selected.scale}
-                      onChange={(e) =>
-                        updateSelected({ scale: Number(e.target.value) })
-                      }
-                      className="w-full accent-[#f5d547]"
-                    />
-                  </label>
-                  <label className="mt-2 flex flex-col gap-1 text-[10px] uppercase text-white/40">
-                    Rotate: {selected.rotation}°
-                    <input
-                      type="range"
-                      min={-180}
-                      max={180}
-                      value={selected.rotation}
-                      onChange={(e) =>
-                        updateSelected({ rotation: Number(e.target.value) })
-                      }
-                      className="w-full accent-[#f5d547]"
-                    />
-                  </label>
-                  <button
-                    type="button"
-                    onClick={() => removeLayer(selected.id)}
-                    className="mt-3 w-full rounded-xl border border-red-500/30 bg-red-500/10 py-2 text-xs font-semibold text-red-400 hover:bg-red-500/20"
-                  >
-                    {selected.id === "mascot_main"
-                      ? "Remove mascot"
-                      : "Remove sticker"}
-                  </button>
-                </div>
-              )}
-
-              {extraStickers.length > 0 && (
-                <div className="rounded-xl border border-white/10 bg-black/30 p-3">
-                  <p className="text-[10px] font-semibold uppercase tracking-wide text-white/50">
-                    Stickers on meme ({extraStickers.length})
-                  </p>
-                  <ul className="mt-2 space-y-1.5">
-                    {extraStickers.map((s) => {
-                      const name =
-                        STICKERS.find((d) => d.id === s.stickerId)?.name ??
-                        "Sticker";
-                      return (
-                        <li
-                          key={s.id}
-                          className="flex items-center justify-between gap-2 rounded-lg bg-white/5 px-2 py-1.5"
-                        >
-                          <button
-                            type="button"
-                            onClick={() => setSelectedId(s.id)}
-                            className={`truncate text-left text-xs ${
-                              selectedId === s.id
-                                ? "font-semibold text-[#f5d547]"
-                                : "text-white/70"
-                            }`}
-                          >
-                            {name}
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => removeLayer(s.id)}
-                            className="rounded-lg px-2 py-1 text-[10px] font-semibold text-red-400 hover:bg-red-500/15"
-                          >
-                            Remove
-                          </button>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              )}
-
-              {!selected && extraStickers.length === 0 && (
-                <p className="text-xs text-white/45">
-                  Drag the mascot or stickers on the canvas. Use captions under
-                  the meme for text.
-                </p>
-              )}
             </div>
           )}
         </div>

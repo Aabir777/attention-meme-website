@@ -40,6 +40,7 @@ export function ContractBar({ variant = "full", className = "" }: Props) {
     hasCa && BRAND.explorerUrl
       ? BRAND.explorerUrl.replace("{address}", ca)
       : null;
+  const buyUrl = BRAND.dexUrl?.trim() || null;
 
   if (variant === "compact") {
     return (
@@ -63,6 +64,16 @@ export function ContractBar({ variant = "full", className = "" }: Props) {
             </span>
           )}
         </button>
+        {buyUrl && (
+          <a
+            href={buyUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[10px] font-semibold uppercase tracking-wider text-[#f5d547]/80 transition hover:text-[#f5d547]"
+          >
+            Buy on {BRAND.dexName} ↗
+          </a>
+        )}
         {explorer && (
           <a
             href={explorer}
@@ -116,6 +127,16 @@ export function ContractBar({ variant = "full", className = "" }: Props) {
             </span>
           </button>
 
+          {buyUrl && (
+            <a
+              href={buyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="shrink-0 rounded-2xl border border-[#f5d547]/40 bg-[#f5d547]/10 px-3.5 py-2.5 text-xs font-semibold text-[#f5d547] transition hover:bg-[#f5d547]/20"
+            >
+              Buy on {BRAND.dexName} ↗
+            </a>
+          )}
           {explorer && (
             <a
               href={explorer}

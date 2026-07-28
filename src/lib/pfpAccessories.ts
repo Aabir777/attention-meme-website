@@ -33,8 +33,9 @@ export interface PfpCategory {
 
 export const PFP_CATEGORIES: PfpCategory[] = [
   { id: "costume", label: "Costume", zIndex: 20 },
-  { id: "face", label: "Face", zIndex: 30 },
-  { id: "eyes", label: "Eyes", zIndex: 40 },
+  /** Eyes sit right after costume — replace the built-in cyclops eye */
+  { id: "eyes", label: "Eyes", zIndex: 35 },
+  { id: "face", label: "Face", zIndex: 40 },
   { id: "mouth", label: "Mouth", zIndex: 50 },
   { id: "headwear", label: "Headwear", zIndex: 60 },
   { id: "accessories", label: "Accessories", zIndex: 70 },
@@ -382,164 +383,39 @@ export const PFP_ACCESSORIES: PfpAccessory[] = [
   },
 
   // ═══════════════════════════════════════════
-  // EYES — single cyclops eye overlays (center ~256,228)
+  // EYES — replace built-in cyclops eye (blend with body)
+  // Landmarks match main-pfp: eye center EX/EY, reticle ~r 72
+  // Each style: (1) black body cover (2) reticle (3) new eye art
   // ═══════════════════════════════════════════
+  // Cover original white eye + gold reticle so the new eye sits flush on the black face
+  // EX=256 EY=248 (tuned to main cutout body)
   {
-    id: "ey-shades",
-    name: "Cool Shades",
+    id: "ey-classic",
+    name: "Classic",
     category: "eyes",
     svg: `
-      <!-- one big lens over the single eye -->
-      <ellipse cx="256" cy="228" rx="82" ry="58" fill="${K}"/>
-      <ellipse cx="256" cy="228" rx="72" ry="48" fill="#111"/>
-      <ellipse cx="235" cy="212" rx="24" ry="14" fill="${W}" opacity="0.22"/>
-      <path d="M174 228 Q145 218 135 242" fill="none" stroke="${K}" stroke-width="7" stroke-linecap="round"/>
-      <path d="M338 228 Q367 218 377 242" fill="none" stroke="${K}" stroke-width="7" stroke-linecap="round"/>
-      <path d="M180 228 H332" stroke="${G}" stroke-width="2" opacity="0.4"/>
+      <circle cx="256" cy="248" r="88" fill="${K}"/>
+      <circle cx="256" cy="248" r="72" fill="none" stroke="${G}" stroke-width="5.5"/>
+      <circle cx="256" cy="248" r="52" fill="none" stroke="${G}" stroke-width="2.5" opacity="0.7"/>
+      <path d="M256 168 V186 M256 310 V328 M176 248 H194 M318 248 H336" stroke="${G}" stroke-width="5.5" stroke-linecap="round"/>
+      <path d="M204 196 L218 210 M308 196 L294 210 M204 300 L218 286 M308 300 L294 286" stroke="${G}" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="256" cy="248" r="46" fill="${W}"/>
+      <circle cx="256" cy="252" r="22" fill="${K}"/>
+      <circle cx="246" cy="242" r="8" fill="${W}"/>
     `,
   },
   {
-    id: "ey-gold-shades",
-    name: "Gold Shades",
+    id: "ey-happy",
+    name: "Happy",
     category: "eyes",
     svg: `
-      <ellipse cx="256" cy="228" rx="82" ry="58" fill="${GD}"/>
-      <ellipse cx="256" cy="228" rx="70" ry="46" fill="${G}" opacity="0.85"/>
-      <ellipse cx="235" cy="212" rx="22" ry="12" fill="${W}" opacity="0.35"/>
-      <path d="M174 228 Q145 218 135 242" fill="none" stroke="${GD}" stroke-width="7"/>
-      <path d="M338 228 Q367 218 377 242" fill="none" stroke="${GD}" stroke-width="7"/>
-    `,
-  },
-  {
-    id: "ey-laser",
-    name: "Laser Eye",
-    category: "eyes",
-    svg: `
-      <circle cx="256" cy="228" r="55" fill="none" stroke="${R}" stroke-width="8"/>
-      <circle cx="256" cy="228" r="28" fill="${R}" opacity="0.9"/>
-      <circle cx="256" cy="228" r="12" fill="#fecaca"/>
-      <path d="M290 255 L420 370" stroke="${R}" stroke-width="12" stroke-linecap="round" opacity="0.9"/>
-      <path d="M290 255 L420 370" stroke="#fecaca" stroke-width="4" stroke-linecap="round"/>
-    `,
-  },
-  {
-    id: "ey-heart",
-    name: "Heart Eye",
-    category: "eyes",
-    svg: `
-      <path d="M210 205 C210 180 240 170 256 198 C272 170 302 180 302 205 C302 245 256 280 256 280 C256 280 210 245 210 205 Z" fill="${R}"/>
-      <path d="M228 210 C234 198 246 198 256 214 C266 198 278 198 284 210" fill="${P}" opacity="0.45"/>
-    `,
-  },
-  {
-    id: "ey-angry",
-    name: "Angry Brow",
-    category: "eyes",
-    svg: `
-      <!-- single angry brow over the one eye -->
-      <path d="M175 175 Q256 210 337 175" fill="none" stroke="${K}" stroke-width="14" stroke-linecap="round"/>
-      <path d="M175 175 Q256 210 337 175" fill="none" stroke="${G}" stroke-width="5" stroke-linecap="round" opacity="0.4"/>
-      <path d="M190 185 L250 205" stroke="${K}" stroke-width="6" stroke-linecap="round"/>
-      <path d="M322 185 L262 205" stroke="${K}" stroke-width="6" stroke-linecap="round"/>
-    `,
-  },
-  {
-    id: "ey-sleepy",
-    name: "Sleepy",
-    category: "eyes",
-    svg: `
-      <path d="M195 230 Q256 258 317 230" fill="none" stroke="${K}" stroke-width="12" stroke-linecap="round"/>
-      <path d="M195 230 Q256 248 317 230" fill="none" stroke="#1a1a1a" stroke-width="6" stroke-linecap="round"/>
-      <path d="M310 195 Q335 172 358 188" fill="none" stroke="${G}" stroke-width="3.5" opacity="0.8"/>
-      <circle cx="350" cy="180" r="3.5" fill="${G}" opacity="0.75"/>
-      <circle cx="365" cy="170" r="2.5" fill="${G}" opacity="0.5"/>
-    `,
-  },
-  {
-    id: "ey-vr",
-    name: "VR Lens",
-    category: "eyes",
-    svg: `
-      <rect x="168" y="192" width="176" height="72" rx="22" fill="${K}" stroke="${G}" stroke-width="4"/>
-      <ellipse cx="256" cy="228" rx="58" ry="28" fill="${CY}" opacity="0.45"/>
-      <circle cx="256" cy="228" r="16" fill="${W}" opacity="0.3"/>
-      <path d="M200 228 H312" stroke="${PU}" stroke-width="2" opacity="0.5"/>
-    `,
-  },
-  {
-    id: "ey-monocle",
-    name: "Monocle",
-    category: "eyes",
-    svg: `
-      <circle cx="256" cy="228" r="58" fill="none" stroke="${G}" stroke-width="8"/>
-      <circle cx="256" cy="228" r="48" fill="${W}" opacity="0.1"/>
-      <path d="M314 228 Q360 255 350 320" fill="none" stroke="${G}" stroke-width="3.5"/>
-      <circle cx="348" cy="325" r="5" fill="${G}"/>
-    `,
-  },
-  {
-    id: "ey-reticle",
-    name: "Target Lock",
-    category: "eyes",
-    svg: `
-      <!-- boost the brand reticle look -->
-      <circle cx="256" cy="228" r="90" fill="none" stroke="${G}" stroke-width="6" opacity="0.95"/>
-      <circle cx="256" cy="228" r="68" fill="none" stroke="${G}" stroke-width="3" opacity="0.6"/>
-      <path d="M256 125 V160 M256 296 V331 M153 228 H188 M324 228 H359" stroke="${G}" stroke-width="6" stroke-linecap="round"/>
-      <path d="M195 170 L215 190 M317 170 L297 190 M195 286 L215 266 M317 286 L297 266" stroke="${G}" stroke-width="4" stroke-linecap="round"/>
-      <circle cx="256" cy="228" r="8" fill="${R}" opacity="0.85"/>
-    `,
-  },
-  {
-    id: "ey-pixel",
-    name: "Pixel Eye",
-    category: "eyes",
-    svg: `
-      <rect x="200" y="185" width="112" height="86" fill="${K}"/>
-      <rect x="210" y="195" width="92" height="66" fill="${W}"/>
-      <rect x="245" y="215" width="36" height="36" fill="${K}"/>
-      <rect x="252" y="222" width="12" height="12" fill="${W}"/>
-    `,
-  },
-  {
-    id: "ey-star",
-    name: "Star Pupil",
-    category: "eyes",
-    svg: `
-      <circle cx="256" cy="228" r="52" fill="${K}" opacity="0.35"/>
-      <path d="M256 178 L268 215 L308 215 L276 238 L288 278 L256 252 L224 278 L236 238 L204 215 L244 215 Z" fill="${G}"/>
-    `,
-  },
-  {
-    id: "ey-dollar",
-    name: "Money Eye",
-    category: "eyes",
-    svg: `
-      <ellipse cx="256" cy="228" rx="70" ry="52" fill="${G}" opacity="0.9"/>
-      <ellipse cx="256" cy="228" rx="58" ry="40" fill="${GD}" opacity="0.5"/>
-      <text x="256" y="242" text-anchor="middle" font-size="52" font-weight="900" fill="${K}" font-family="Arial,sans-serif">$</text>
-    `,
-  },
-  {
-    id: "ey-x",
-    name: "X Eyes",
-    category: "eyes",
-    svg: `
-      <path d="M210 190 L302 266 M302 190 L210 266" stroke="${K}" stroke-width="14" stroke-linecap="round"/>
-      <path d="M210 190 L302 266 M302 190 L210 266" stroke="${G}" stroke-width="5" stroke-linecap="round" opacity="0.5"/>
-    `,
-  },
-  {
-    id: "ey-rainbow",
-    name: "Rainbow",
-    category: "eyes",
-    svg: `
-      <circle cx="256" cy="228" r="60" fill="none" stroke="#ef4444" stroke-width="8"/>
-      <circle cx="256" cy="228" r="50" fill="none" stroke="#f97316" stroke-width="8"/>
-      <circle cx="256" cy="228" r="40" fill="none" stroke="#f5d547" stroke-width="8"/>
-      <circle cx="256" cy="228" r="30" fill="none" stroke="#22c55e" stroke-width="8"/>
-      <circle cx="256" cy="228" r="20" fill="none" stroke="#3b82f6" stroke-width="8"/>
-      <circle cx="256" cy="228" r="10" fill="#a78bfa"/>
+      <circle cx="256" cy="248" r="88" fill="${K}"/>
+      <circle cx="256" cy="248" r="72" fill="none" stroke="${G}" stroke-width="5.5"/>
+      <path d="M256 168 V186 M256 310 V328 M176 248 H194 M318 248 H336" stroke="${G}" stroke-width="5.5" stroke-linecap="round"/>
+      <circle cx="256" cy="248" r="46" fill="${W}"/>
+      <circle cx="256" cy="256" r="20" fill="${K}"/>
+      <circle cx="246" cy="246" r="7" fill="${W}"/>
+      <path d="M220 218 Q256 238 292 218" fill="none" stroke="${K}" stroke-width="6" stroke-linecap="round" opacity="0.25"/>
     `,
   },
   {
@@ -547,8 +423,186 @@ export const PFP_ACCESSORIES: PfpAccessory[] = [
     name: "Wink",
     category: "eyes",
     svg: `
-      <path d="M195 228 Q256 255 317 228" fill="none" stroke="${K}" stroke-width="11" stroke-linecap="round"/>
-      <path d="M210 200 Q256 185 302 200" fill="none" stroke="${G}" stroke-width="4" opacity="0.5"/>
+      <circle cx="256" cy="248" r="88" fill="${K}"/>
+      <circle cx="256" cy="248" r="72" fill="none" stroke="${G}" stroke-width="5.5"/>
+      <path d="M256 168 V186 M256 310 V328 M176 248 H194 M318 248 H336" stroke="${G}" stroke-width="5.5" stroke-linecap="round"/>
+      <path d="M198 248 Q256 278 314 248" fill="none" stroke="${W}" stroke-width="14" stroke-linecap="round"/>
+      <path d="M198 248 Q256 268 314 248" fill="none" stroke="${K}" stroke-width="8" stroke-linecap="round"/>
+      <path d="M198 248 Q256 262 314 248" fill="none" stroke="${G}" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+    `,
+  },
+  {
+    id: "ey-sleepy",
+    name: "Sleepy",
+    category: "eyes",
+    svg: `
+      <circle cx="256" cy="248" r="88" fill="${K}"/>
+      <circle cx="256" cy="248" r="72" fill="none" stroke="${G}" stroke-width="5.5" opacity="0.85"/>
+      <path d="M256 168 V186 M256 310 V328 M176 248 H194 M318 248 H336" stroke="${G}" stroke-width="5" stroke-linecap="round" opacity="0.7"/>
+      <path d="M200 252 Q256 282 312 252" fill="none" stroke="${W}" stroke-width="12" stroke-linecap="round"/>
+      <path d="M200 252 Q256 268 312 252" fill="none" stroke="${K}" stroke-width="7" stroke-linecap="round"/>
+      <path d="M318 200 Q348 178 368 198" fill="none" stroke="${G}" stroke-width="3" opacity="0.75"/>
+      <circle cx="362" cy="188" r="3.5" fill="${G}" opacity="0.7"/>
+    `,
+  },
+  {
+    id: "ey-angry",
+    name: "Angry",
+    category: "eyes",
+    svg: `
+      <circle cx="256" cy="248" r="88" fill="${K}"/>
+      <circle cx="256" cy="248" r="72" fill="none" stroke="${G}" stroke-width="5.5"/>
+      <path d="M256 168 V186 M256 310 V328 M176 248 H194 M318 248 H336" stroke="${G}" stroke-width="5.5" stroke-linecap="round"/>
+      <circle cx="256" cy="252" r="46" fill="${W}"/>
+      <circle cx="256" cy="262" r="20" fill="${K}"/>
+      <circle cx="248" cy="252" r="7" fill="${W}"/>
+      <path d="M188 188 L270 222" stroke="${K}" stroke-width="16" stroke-linecap="round"/>
+      <path d="M324 188 L242 222" stroke="${K}" stroke-width="16" stroke-linecap="round"/>
+      <path d="M188 188 L270 222" stroke="${G}" stroke-width="5" stroke-linecap="round" opacity="0.55"/>
+      <path d="M324 188 L242 222" stroke="${G}" stroke-width="5" stroke-linecap="round" opacity="0.55"/>
+    `,
+  },
+  {
+    id: "ey-shocked",
+    name: "Shocked",
+    category: "eyes",
+    svg: `
+      <circle cx="256" cy="248" r="90" fill="${K}"/>
+      <circle cx="256" cy="248" r="76" fill="none" stroke="${G}" stroke-width="5.5"/>
+      <path d="M256 164 V182 M256 314 V332 M172 248 H190 M322 248 H340" stroke="${G}" stroke-width="5.5" stroke-linecap="round"/>
+      <circle cx="256" cy="248" r="50" fill="${W}"/>
+      <circle cx="256" cy="248" r="28" fill="${K}"/>
+      <circle cx="244" cy="234" r="9" fill="${W}"/>
+    `,
+  },
+  {
+    id: "ey-heart",
+    name: "Heart",
+    category: "eyes",
+    svg: `
+      <circle cx="256" cy="248" r="88" fill="${K}"/>
+      <circle cx="256" cy="248" r="72" fill="none" stroke="${G}" stroke-width="5.5"/>
+      <path d="M256 168 V186 M256 310 V328 M176 248 H194 M318 248 H336" stroke="${G}" stroke-width="5.5" stroke-linecap="round"/>
+      <path d="M214 220 C214 195 244 185 256 218 C268 185 298 195 298 220 C298 258 256 292 256 292 C256 292 214 258 214 220 Z" fill="${R}"/>
+      <path d="M232 225 C238 210 250 210 256 230 C262 210 274 210 280 225" fill="${P}" opacity="0.45"/>
+    `,
+  },
+  {
+    id: "ey-star",
+    name: "Star",
+    category: "eyes",
+    svg: `
+      <circle cx="256" cy="248" r="88" fill="${K}"/>
+      <circle cx="256" cy="248" r="72" fill="none" stroke="${G}" stroke-width="5.5"/>
+      <path d="M256 168 V186 M256 310 V328 M176 248 H194 M318 248 H336" stroke="${G}" stroke-width="5.5" stroke-linecap="round"/>
+      <circle cx="256" cy="248" r="46" fill="${W}"/>
+      <path d="M256 208 L268 238 L300 238 L274 258 L284 290 L256 270 L228 290 L238 258 L212 238 L244 238 Z" fill="${G}"/>
+    `,
+  },
+  {
+    id: "ey-shades",
+    name: "Cool Shades",
+    category: "eyes",
+    svg: `
+      <circle cx="256" cy="248" r="88" fill="${K}"/>
+      <ellipse cx="256" cy="248" rx="86" ry="58" fill="${K}"/>
+      <ellipse cx="256" cy="248" rx="74" ry="48" fill="#0d0d0d"/>
+      <ellipse cx="256" cy="248" rx="74" ry="48" fill="none" stroke="${G}" stroke-width="3.5"/>
+      <ellipse cx="232" cy="232" rx="22" ry="12" fill="${W}" opacity="0.18"/>
+      <path d="M172 248 Q148 238 138 258" fill="none" stroke="${K}" stroke-width="8" stroke-linecap="round"/>
+      <path d="M340 248 Q364 238 374 258" fill="none" stroke="${K}" stroke-width="8" stroke-linecap="round"/>
+      <path d="M182 248 H330" stroke="${G}" stroke-width="2" opacity="0.35"/>
+    `,
+  },
+  {
+    id: "ey-gold-shades",
+    name: "Gold Shades",
+    category: "eyes",
+    svg: `
+      <circle cx="256" cy="248" r="88" fill="${K}"/>
+      <ellipse cx="256" cy="248" rx="86" ry="58" fill="${GD}"/>
+      <ellipse cx="256" cy="248" rx="72" ry="46" fill="${G}" opacity="0.9"/>
+      <ellipse cx="232" cy="232" rx="20" ry="11" fill="${W}" opacity="0.35"/>
+      <path d="M172 248 Q148 238 138 258" fill="none" stroke="${GD}" stroke-width="8" stroke-linecap="round"/>
+      <path d="M340 248 Q364 238 374 258" fill="none" stroke="${GD}" stroke-width="8" stroke-linecap="round"/>
+    `,
+  },
+  {
+    id: "ey-laser",
+    name: "Laser",
+    category: "eyes",
+    svg: `
+      <circle cx="256" cy="248" r="88" fill="${K}"/>
+      <circle cx="256" cy="248" r="72" fill="none" stroke="${R}" stroke-width="6"/>
+      <circle cx="256" cy="248" r="46" fill="${W}"/>
+      <circle cx="256" cy="248" r="24" fill="${R}"/>
+      <circle cx="256" cy="248" r="10" fill="#fecaca"/>
+      <path d="M278 268 L410 380" stroke="${R}" stroke-width="12" stroke-linecap="round" opacity="0.9"/>
+      <path d="M278 268 L410 380" stroke="#fecaca" stroke-width="4" stroke-linecap="round"/>
+    `,
+  },
+  {
+    id: "ey-dollar",
+    name: "Money",
+    category: "eyes",
+    svg: `
+      <circle cx="256" cy="248" r="88" fill="${K}"/>
+      <circle cx="256" cy="248" r="72" fill="none" stroke="${G}" stroke-width="5.5"/>
+      <path d="M256 168 V186 M256 310 V328 M176 248 H194 M318 248 H336" stroke="${G}" stroke-width="5.5" stroke-linecap="round"/>
+      <circle cx="256" cy="248" r="48" fill="${G}"/>
+      <text x="256" y="266" text-anchor="middle" font-size="48" font-weight="900" fill="${K}" font-family="Arial,sans-serif">$</text>
+    `,
+  },
+  {
+    id: "ey-x",
+    name: "KO",
+    category: "eyes",
+    svg: `
+      <circle cx="256" cy="248" r="88" fill="${K}"/>
+      <circle cx="256" cy="248" r="72" fill="none" stroke="${G}" stroke-width="5.5"/>
+      <path d="M256 168 V186 M256 310 V328 M176 248 H194 M318 248 H336" stroke="${G}" stroke-width="5.5" stroke-linecap="round"/>
+      <path d="M210 202 L302 294 M302 202 L210 294" stroke="${W}" stroke-width="16" stroke-linecap="round"/>
+      <path d="M210 202 L302 294 M302 202 L210 294" stroke="${K}" stroke-width="10" stroke-linecap="round"/>
+      <path d="M210 202 L302 294 M302 202 L210 294" stroke="${G}" stroke-width="4" stroke-linecap="round" opacity="0.5"/>
+    `,
+  },
+  {
+    id: "ey-vr",
+    name: "VR Lens",
+    category: "eyes",
+    svg: `
+      <circle cx="256" cy="248" r="90" fill="${K}"/>
+      <rect x="168" y="210" width="176" height="76" rx="22" fill="${K}" stroke="${G}" stroke-width="4"/>
+      <ellipse cx="256" cy="248" rx="60" ry="28" fill="${CY}" opacity="0.45"/>
+      <circle cx="256" cy="248" r="16" fill="${W}" opacity="0.3"/>
+      <path d="M200 248 H312" stroke="${PU}" stroke-width="2" opacity="0.5"/>
+    `,
+  },
+  {
+    id: "ey-rainbow",
+    name: "Rainbow",
+    category: "eyes",
+    svg: `
+      <circle cx="256" cy="248" r="88" fill="${K}"/>
+      <circle cx="256" cy="248" r="62" fill="none" stroke="#ef4444" stroke-width="7"/>
+      <circle cx="256" cy="248" r="52" fill="none" stroke="#f97316" stroke-width="7"/>
+      <circle cx="256" cy="248" r="42" fill="none" stroke="#f5d547" stroke-width="7"/>
+      <circle cx="256" cy="248" r="32" fill="none" stroke="#22c55e" stroke-width="7"/>
+      <circle cx="256" cy="248" r="22" fill="none" stroke="#3b82f6" stroke-width="7"/>
+      <circle cx="256" cy="248" r="12" fill="#a78bfa"/>
+    `,
+  },
+  {
+    id: "ey-side",
+    name: "Side Glance",
+    category: "eyes",
+    svg: `
+      <circle cx="256" cy="248" r="88" fill="${K}"/>
+      <circle cx="256" cy="248" r="72" fill="none" stroke="${G}" stroke-width="5.5"/>
+      <path d="M256 168 V186 M256 310 V328 M176 248 H194 M318 248 H336" stroke="${G}" stroke-width="5.5" stroke-linecap="round"/>
+      <circle cx="256" cy="248" r="46" fill="${W}"/>
+      <circle cx="272" cy="248" r="22" fill="${K}"/>
+      <circle cx="264" cy="238" r="8" fill="${W}"/>
     `,
   },
 

@@ -583,6 +583,43 @@ async function paintPhotoBackground(
   }
 }
 
+/** Shared background fill for PFP tools (colors, scenes, photo stages) */
+export async function fillPfpBackground(
+  ctx: CanvasRenderingContext2D,
+  sizePx: number,
+  opts: {
+    backgroundId: string;
+    transparentBg?: boolean;
+    customBgColor?: string;
+  }
+): Promise<void> {
+  const bgMeta = getPfpBackground(opts.backgroundId);
+  if (opts.transparentBg) {
+    ctx.clearRect(0, 0, sizePx, sizePx);
+    return;
+  }
+  if (bgMeta?.image) {
+    const ok = await paintPhotoBackground(ctx, bgMeta.image, sizePx);
+    if (!ok) {
+      paintBackground(
+        ctx,
+        opts.backgroundId,
+        sizePx,
+        false,
+        opts.customBgColor ?? "#f5d547"
+      );
+    }
+    return;
+  }
+  paintBackground(
+    ctx,
+    opts.backgroundId,
+    sizePx,
+    false,
+    opts.customBgColor ?? "#f5d547"
+  );
+}
+
 export async function renderPfpToCanvas(
   config: PfpConfig,
   canvas: HTMLCanvasElement,
@@ -597,30 +634,11 @@ export async function renderPfpToCanvas(
   ctx.imageSmoothingEnabled = true;
   ctx.imageSmoothingQuality = "high";
 
-  const bgMeta = getPfpBackground(config.backgroundId);
-
-  if (config.transparentBg) {
-    ctx.clearRect(0, 0, sizePx, sizePx);
-  } else if (bgMeta?.image) {
-    const ok = await paintPhotoBackground(ctx, bgMeta.image, sizePx);
-    if (!ok) {
-      paintBackground(
-        ctx,
-        config.backgroundId,
-        sizePx,
-        false,
-        config.customBgColor ?? "#f5d547"
-      );
-    }
-  } else {
-    paintBackground(
-      ctx,
-      config.backgroundId,
-      sizePx,
-      false,
-      config.customBgColor ?? "#f5d547"
-    );
-  }
+  await fillPfpBackground(ctx, sizePx, {
+    backgroundId: config.backgroundId,
+    transparentBg: config.transparentBg,
+    customBgColor: config.customBgColor,
+  });
 
   const mascot: MascotPose | undefined = config.mascotId
     ? getMascot(config.mascotId)

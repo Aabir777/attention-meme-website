@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Allow LAN access to HMR in development (phones / other devices)
+  allowedDevOrigins: ["192.168.1.2", "localhost", "127.0.0.1"],
   // Serve large GLB + media with long cache (immutable asset hashes in filenames when used)
   headers: async () => [
     {

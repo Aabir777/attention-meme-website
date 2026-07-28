@@ -94,7 +94,7 @@ export default function HomePage() {
             {[
               {
                 title: "Meme Generator",
-                desc: "Full-scene templates, captions, stickers, rotate & resize — download a PNG ready for CT.",
+                desc: "Full-scene templates and captions — download a PNG ready for CT.",
                 href: "/maker?tab=meme",
                 img: "/mascot/pay-attention.png",
                 tag: "Viral",
@@ -226,26 +226,26 @@ export default function HomePage() {
               {
                 step: "01",
                 icon: "◈",
-                title: `Get a ${BRAND.walletName} wallet`,
-                body: `Install ${BRAND.walletName} (browser or mobile) and create a wallet. Guard your seed phrase — never share it.`,
+                title: "Create a Wallet",
+                body: "Grab the Robinhood Wallet app or MetaMask and set it up. Guard your seed phrase like it’s the last slice of attention.",
               },
               {
                 step: "02",
                 icon: "◎",
-                title: `Fund with ${BRAND.chainShort}`,
-                body: `Buy or transfer a little ${BRAND.chainShort} on ${BRAND.chain} for the swap and network fees.`,
+                title: "Get Some ETH",
+                body: "Buy or bridge ETH (or the native token) to the Robinhood Chain. Once it’s in your wallet, you’re ready.",
               },
               {
                 step: "03",
                 icon: "⇄",
-                title: `Swap for ${BRAND.ticker}`,
-                body: `Open ${BRAND.dexName}, paste the official contract address when it’s live, and swap ${BRAND.chainShort} → ${BRAND.ticker}.`,
+                title: "Swap for $ATTENTION",
+                body: "Go to the official DEX on Robinhood Chain, paste the $ATTENTION contract address, and swap.",
               },
               {
                 step: "04",
                 icon: "★",
-                title: "You are now part of ATTENTION!",
-                body: "Confirm the transaction, keep a little SOL for gas, and join the timeline. Welcome to the first asset.",
+                title: "You Are Now Part of Attention!",
+                body: "Approve the transaction and keep a little gas for the journey. Welcome to the first asset. Pay Attention.",
               },
             ].map((item) => (
               <li
@@ -284,7 +284,7 @@ export default function HomePage() {
               rel="noopener noreferrer"
               className="btn-gold"
             >
-              Open {BRAND.dexName}
+              Buy on {BRAND.dexName}
             </a>
             <a href="#talk" className="btn-outline-gold">
               Talk to the mascot
