@@ -50,10 +50,12 @@ export const BRAND = {
   manifesto: "/mascot/manifesto.png",
   primaryMascot: "/mascot/main.png",
   /**
-   * Contract address — paste live CA or set NEXT_PUBLIC_CONTRACT_ADDRESS.
+   * Contract address — set NEXT_PUBLIC_CONTRACT_ADDRESS to override.
    * Empty = show “Coming soon”.
    */
-  contractAddress: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS?.trim() || "",
+  contractAddress:
+    process.env.NEXT_PUBLIC_CONTRACT_ADDRESS?.trim() ||
+    "0x24D73f200DaAB76eDA015FabCA1Ee09Fe73fdA14",
   /** Chain label for buy steps + UI */
   chain: "Robinhood Chain",
   chainShort: "ETH",

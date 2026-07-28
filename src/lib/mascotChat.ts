@@ -94,7 +94,9 @@ const RULES: { test: RegExp; replies: string[] }[] = [
   },
   {
     test: /when (is )?(the )?contract|contract address|\bca\b|token address|when (do we get|will) (a )?ca|where('?s| is) (the )?ca/i,
-    replies: ["Contract address is coming soon. Pay Attention."],
+    replies: [
+      "Official CA: 0x24D73f200DaAB76eDA015FabCA1Ee09Fe73fdA14 — buy on Pons. Always double-check the address.",
+    ],
   },
   {
     test: /roadmap|what('?s| is) next|plans?|timeline|milestones?/i,
