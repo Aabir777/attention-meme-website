@@ -60,8 +60,8 @@ Redeploy after env changes so Open Graph and share links use the real domain.
 
 - **Chain:** Robinhood Chain (ETH · Robinhood Wallet / MetaMask · Pons)
 - **How to Buy** on the homepage matches that stack
-- **CA:** `0x24D73f200DaAB76eDA015FabCA1Ee09Fe73fdA14` (override with `NEXT_PUBLIC_CONTRACT_ADDRESS`)
-- **Launchpad:** https://www.ponsfamily.com/launchpad/0x24D73f200DaAB76eDA015FabCA1Ee09Fe73fdA14
+- **CA:** “Coming soon” until `NEXT_PUBLIC_CONTRACT_ADDRESS` is set
+- **Launchpad:** Pons (see `BRAND.dexUrl` in `src/lib/assets.ts`)
 - **Share on X:** Chog-style text + maker link (attach PNG manually)
 - Large 3D model (`public/models/mascot.glb` ~54MB) loads when the stage is on-screen
 
