@@ -220,18 +220,17 @@ export default function HomePage() {
           </div>
 
           <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:py-20">
-            <div className="relative mx-auto aspect-square w-full max-w-[320px]">
-              <div className="pointer-events-none absolute -inset-6 rounded-full bg-[#f5d547]/15 blur-2xl" />
-              <div className="relative h-full w-full overflow-hidden rounded-[2rem] border border-[#f5d547]/25 bg-gradient-to-b from-[#12100a] to-[#08080e] shadow-[0_0_50px_rgba(245,213,71,0.12)]">
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_55%,rgba(245,213,71,0.14),transparent_65%)]" />
+            <div className="relative mx-auto aspect-square w-full max-w-[340px]">
+              <div className="pointer-events-none absolute -inset-8 rounded-full bg-[#f5d547]/28 blur-3xl" />
+              <div className="relative h-full w-full overflow-hidden rounded-[2rem] border border-[#f5d547]/35 bg-gradient-to-b from-[#1a160e] via-[#12100a] to-[#0c0a08] shadow-[0_0_60px_rgba(245,213,71,0.22)]">
+                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_42%,rgba(255,245,200,0.18),transparent_62%)]" />
                 <Image
-                  src={BRAND.primaryMascot}
+                  src="/mascot/one-eye-clear.png"
                   alt="Attention mascot, one eye, full focus"
                   fill
-                  className="object-contain object-bottom p-5 contrast-110 [mix-blend-mode:multiply] sm:p-6"
-                  sizes="320px"
+                  className="relative z-[1] object-contain object-center p-3 sm:p-4"
+                  sizes="340px"
                 />
-                <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-[#08080e] to-transparent" />
               </div>
             </div>
             <div>
