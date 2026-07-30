@@ -1,9 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { BRAND } from "@/lib/assets";
-import { TalkingMascot } from "@/components/TalkingMascot";
 import { ContractBar } from "@/components/ContractBar";
-import { AboutMascot3D } from "@/components/AboutMascot3D";
+import {
+  AboutMascotSlot,
+  TalkingMascotSlot,
+} from "@/components/DeferredHome3D";
 
 const BEFORE_LINES = [
   "Before conviction, there is attention.",
@@ -31,8 +33,9 @@ export default function HomePage() {
             alt="Attention mascot"
             fill
             priority
-            className="object-cover object-center scale-105 opacity-80"
+            className="object-cover object-center opacity-80"
             sizes="100vw"
+            placeholder="empty"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#030306] via-[#030306]/88 to-[#030306]/35" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#030306] via-transparent to-[#030306]/60" />
@@ -41,22 +44,22 @@ export default function HomePage() {
 
         <div className="relative mx-auto flex min-h-[calc(100dvh-4.25rem)] max-w-7xl flex-col justify-center px-4 pb-20 pt-28 sm:px-6">
           <div className="max-w-2xl">
-            <div className="anim-fade-up mb-6 inline-flex items-center gap-2 rounded-full border border-[#f5d547]/30 bg-[#f5d547]/[0.08] px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-[#f5d547] shadow-[0_0_24px_rgba(245,213,71,0.12)]">
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#f5d547]" />
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#f5d547]/30 bg-[#f5d547]/[0.08] px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-[#f5d547] shadow-[0_0_24px_rgba(245,213,71,0.12)]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#f5d547]" />
               {BRAND.ticker}, the first asset
             </div>
 
-            <h1 className="anim-fade-up anim-fade-up-delay-1 font-display text-5xl uppercase leading-[0.92] tracking-[0.04em] text-white sm:text-7xl">
+            <h1 className="font-display text-5xl uppercase leading-[0.92] tracking-[0.04em] text-white sm:text-7xl">
               Attention
               <br />
               <span className="text-gold-gradient">{BRAND.tagline}</span>
             </h1>
 
-            <p className="anim-fade-up anim-fade-up-delay-2 mt-7 max-w-lg text-base leading-relaxed text-white/60 sm:text-lg">
+            <p className="mt-7 max-w-lg text-base leading-relaxed text-white/60 sm:text-lg">
               {BRAND.slogan}
             </p>
 
-            <div className="anim-fade-up anim-fade-up-delay-3 mt-10 flex flex-wrap items-center gap-3">
+            <div className="mt-10 flex flex-wrap items-center gap-3">
               <a href="#talk" className="btn-gold">
                 Talk to mascot
               </a>
@@ -87,7 +90,7 @@ export default function HomePage() {
       {/* ——— ABOUT (philosophy — continuous page) ——— */}
       <section
         id="about"
-        className="relative scroll-mt-28 border-t border-white/[0.06]"
+        className="content-auto relative scroll-mt-28 border-t border-white/[0.06]"
       >
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(245,213,71,0.1),transparent_50%)]" />
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_80%_60%,rgba(245,213,71,0.05),transparent_45%)]" />
@@ -118,7 +121,7 @@ export default function HomePage() {
             </div>
 
             <div>
-              <AboutMascot3D />
+              <AboutMascotSlot />
             </div>
           </div>
         </div>
@@ -257,11 +260,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Talking Tom interactive mascot */}
-      <TalkingMascot />
+      {/* Talking Tom — deferred so first paint stays smooth */}
+      <TalkingMascotSlot />
 
       {/* ——— FEATURES ——— */}
-      <section className="relative border-t border-white/[0.06] py-24">
+      <section className="relative border-t border-white/[0.06] py-24 content-auto">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(245,213,71,0.06),transparent_50%)]" />
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6">
           <div className="mb-14 text-center">
@@ -339,7 +342,7 @@ export default function HomePage() {
       {/* ——— HOW TO BUY ——— */}
       <section
         id="how-to-buy"
-        className="relative scroll-mt-28 border-t border-white/[0.06] py-20 sm:py-28"
+        className="content-auto relative scroll-mt-28 border-t border-white/[0.06] py-20 sm:py-28"
       >
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(245,213,71,0.08),transparent_55%)]" />
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_80%_100%,rgba(201,162,39,0.05),transparent_45%)]" />

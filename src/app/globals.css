@@ -368,26 +368,22 @@ main {
 }
 
 /*
- * Hero entrance — default is fully visible so first paint never blanks out
- * (animation only runs when motion is allowed).
+ * No opacity-0 entrance animations — content is always visible on first paint
+ * (avoids the “still rendering / blank then pop-in” look).
  */
-.anim-fade-up {
+.anim-fade-up,
+.anim-fade-up-delay-1,
+.anim-fade-up-delay-2,
+.anim-fade-up-delay-3 {
   opacity: 1;
   transform: none;
+  animation: none;
 }
-@media (prefers-reduced-motion: no-preference) {
-  .anim-fade-up {
-    animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
-  }
-  .anim-fade-up-delay-1 {
-    animation-delay: 0.08s;
-  }
-  .anim-fade-up-delay-2 {
-    animation-delay: 0.16s;
-  }
-  .anim-fade-up-delay-3 {
-    animation-delay: 0.24s;
-  }
+
+/* Below-fold sections paint after hero is ready */
+.content-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 720px;
 }
 .anim-float {
   animation: soft-float 6s ease-in-out infinite;
