@@ -36,6 +36,8 @@ export const BRAND = {
   slogan: "Everything valuable begins with attention.",
   twitter: "https://x.com/attention_HQ",
   twitterHandle: "@attention_HQ",
+  telegram: "https://t.me/+7PvjR7lQtV4wYTg9",
+  telegramLabel: "Telegram",
   logoMark: "/mascot/logo-mark.png",
   /** Full rectangular brand banner */
   logoBanner: "/mascot/logo-banner.png",

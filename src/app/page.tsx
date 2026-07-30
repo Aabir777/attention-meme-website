@@ -54,9 +54,6 @@ export default function HomePage() {
 
             <p className="anim-fade-up anim-fade-up-delay-2 mt-7 max-w-lg text-base leading-relaxed text-white/60 sm:text-lg">
               {BRAND.slogan}
-              <br />
-              Talk with our mascot. Always listening, endlessly pokeable. Build
-              PFPs. Flood the timeline.
             </p>
 
             <div className="anim-fade-up anim-fade-up-delay-3 mt-10 flex flex-wrap items-center gap-3">
@@ -429,6 +426,14 @@ export default function HomePage() {
               Talk to the mascot
             </a>
             <a
+              href={BRAND.telegram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-outline-gold"
+            >
+              Join Telegram
+            </a>
+            <a
               href={BRAND.twitter}
               target="_blank"
               rel="noopener noreferrer"
@@ -439,7 +444,7 @@ export default function HomePage() {
           </div>
           <p className="mx-auto mt-6 max-w-md text-center text-[11px] leading-relaxed text-white/35">
             Always verify the contract address from official {BRAND.twitterHandle}{" "}
-            channels. Scams paste fake CAs.
+            and Telegram channels. Scams paste fake CAs.
           </p>
         </div>
       </section>
@@ -472,6 +477,14 @@ export default function HomePage() {
               <Link href="/stickers" className="hover:text-[#f5d547]">
                 Stickers
               </Link>
+              <a
+                href={BRAND.telegram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-[#f5d547]"
+              >
+                Telegram
+              </a>
               <a
                 href={BRAND.twitter}
                 target="_blank"
