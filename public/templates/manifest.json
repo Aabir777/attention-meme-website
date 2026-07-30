@@ -1,4 +1,4 @@
-﻿[
+[
   {"id":"tpl-n01","name":"Boardroom","src":"/templates/n01.jpg","topText":"EVERYONE WANTS IN","bottomText":"ON $attention"},
   {"id":"tpl-n02","name":"Join Us","src":"/templates/n02.jpg","topText":"COME WITH ME","bottomText":"PAY ATTENTION"},
   {"id":"tpl-n03","name":"Hard Choice","src":"/templates/n03.jpg","topText":"HARD CHOICE","bottomText":"BOTH SAY BUY $attention"},
@@ -8,5 +8,25 @@
   {"id":"tpl-n07","name":"Still Fine","src":"/templates/n07.jpg","topText":"THIS IS FINE","bottomText":"HOLDING $attention"},
   {"id":"tpl-n08","name":"Touch Grass","src":"/templates/n08.jpg","topText":"TOUCH GRASS?","bottomText":"I TOUCHED $attention"},
   {"id":"tpl-n09","name":"Red Pill","src":"/templates/n09.jpg","topText":"RED OR BLUE","bottomText":"PICK $attention"},
-  {"id":"tpl-n10","name":"Town Hall","src":"/templates/n10.jpg","topText":"THE WHOLE TOWN","bottomText":"PAYS ATTENTION"}
+  {"id":"tpl-n10","name":"Town Hall","src":"/templates/n10.jpg","topText":"THE WHOLE TOWN","bottomText":"PAYS ATTENTION"},
+  {"id":"tpl-n11","name":"Laser Focus","src":"/templates/n11.jpg","topText":"LOCKED IN","bottomText":"ON $attention"},
+  {"id":"tpl-n12","name":"Strong Buy","src":"/templates/n12.jpg","topText":"STRONG BUY","bottomText":"PAY ATTENTION"},
+  {"id":"tpl-n13","name":"Chief Overthinker","src":"/templates/n13.jpg","topText":"CHIEF OVERTHINKER","bottomText":"STILL HOLDING $attention"},
+  {"id":"tpl-n14","name":"Album Mode","src":"/templates/n14.png","topText":"ONLY PLAYING","bottomText":"$attention ON REPEAT"},
+  {"id":"tpl-n15","name":"Hype Pose","src":"/templates/n15.jpg","topText":"ME AFTER","bottomText":"BUYING $attention"},
+  {"id":"tpl-n16","name":"Hulk Swing","src":"/templates/n16.jpg","topText":"JUST CHILLIN","bottomText":"WHILE $attention RIPS"},
+  {"id":"tpl-n17","name":"Game Day","src":"/templates/n17.jpg","topText":"HER: WHO ARE YOU","bottomText":"ME: $attention HOLDER"},
+  {"id":"tpl-n18","name":"Barrel Fail","src":"/templates/n18.jpg","topText":"WHEN YOU SHORT","bottomText":"$attention"},
+  {"id":"tpl-n19","name":"Rest in Peace","src":"/templates/n19.jpg","topText":"RIP DOUBTERS","bottomText":"$attention STILL HERE"},
+  {"id":"tpl-n20","name":"Press Swarm","src":"/templates/n20.jpg","topText":"MEDIA: WHATS NEXT","bottomText":"ME: PAY ATTENTION"},
+  {"id":"tpl-n21","name":"Desk Dealer","src":"/templates/n21.jpg","topText":"ME WATCHING","bottomText":"$attention ALL DAY"},
+  {"id":"tpl-n22","name":"GM Blast","src":"/templates/n22.jpg","topText":"GM CT","bottomText":"PAY ATTENTION"},
+  {"id":"tpl-n23","name":"300","src":"/templates/n23.jpg","topText":"THIS IS","bottomText":"$attention"},
+  {"id":"tpl-n24","name":"Army Spawn","src":"/templates/n24.jpg","topText":"SENDING THE ARMY","bottomText":"OF $attention"},
+  {"id":"tpl-n25","name":"Champions","src":"/templates/n25.jpg","topText":"WHEN $attention","bottomText":"HITS THE TIMELINE"},
+  {"id":"tpl-n26","name":"Ultrasound","src":"/templates/n26.jpg","topText":"BORN READY","bottomText":"FOR $attention"},
+  {"id":"tpl-n27","name":"Worm Ride","src":"/templates/n27.jpg","topText":"RIDING THE WAVE","bottomText":"OF $attention"},
+  {"id":"tpl-n28","name":"Supra Flex","src":"/templates/n28.jpg","topText":"BAG LOOKING CLEAN","bottomText":"SINCE $attention"},
+  {"id":"tpl-n29","name":"Empty Pockets","src":"/templates/n29.jpg","topText":"WALLET AFTER","bottomText":"BUYING $attention"},
+  {"id":"tpl-n30","name":"City Watch","src":"/templates/n30.jpg","topText":"THE WHOLE CITY","bottomText":"PAYS ATTENTION"}
 ]

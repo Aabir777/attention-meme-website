@@ -36,8 +36,8 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "ATTENTION | The First Asset, $attention",
-    template: "%s | ATTENTION",
+    default: "ATTENTION, The First Asset, $attention",
+    template: "%s, ATTENTION",
   },
   description:
     "Attention is the first asset. Create PFPs and memes with the official Attention mascot. Own your attention.",
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: siteUrl,
     siteName: "ATTENTION",
-    title: "ATTENTION | The First Asset",
+    title: "ATTENTION, The First Asset",
     description: "Everything valuable begins with attention.",
     images: [
       {
@@ -71,7 +71,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: BRAND.twitterHandle,
     creator: BRAND.twitterHandle,
-    title: "ATTENTION | The First Asset",
+    title: "ATTENTION, The First Asset",
     description: "Everything valuable begins with attention.",
     images: ["/mascot/hero-wide.png"],
   },

@@ -644,10 +644,23 @@ export function TalkingMascot() {
   return (
     <section
       id="talk"
-      className="relative scroll-mt-24 border-t border-white/[0.06] py-16 sm:py-24"
+      className="relative scroll-mt-28 border-t border-white/[0.06] py-16 sm:py-24"
     >
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_20%,rgba(245,213,71,0.07),transparent_55%)]" />
       <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
+        {/* Section heading */}
+        <div className="mb-10 text-center sm:mb-12">
+          <p className="section-label">Live companion</p>
+          <h2 className="font-display mt-3 text-3xl uppercase tracking-[0.06em] text-white sm:text-5xl">
+            Talk to our{" "}
+            <span className="text-gold-gradient">mascot</span>
+          </h2>
+          <p className="mx-auto mt-4 max-w-lg text-sm text-white/45 sm:text-base">
+            Chat, poke, and play. Always listening. Pay Attention.
+          </p>
+          <div className="mx-auto mt-8 h-px w-24 bg-gradient-to-r from-transparent via-[#f5d547]/50 to-transparent" />
+        </div>
+
         <div className="grid items-start gap-8 lg:grid-cols-[1.15fr_0.85fr]">
           {/* 3D STAGE */}
           <div className="relative">
@@ -735,6 +748,14 @@ export function TalkingMascot() {
 
           {/* CLEAN CHAT */}
           <div className="glass-panel sticky top-24 rounded-[1.75rem] p-5 sm:p-6">
+            <div className="mb-4">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#f5d547]/80">
+                Chatbot
+              </p>
+              <h3 className="font-display mt-1 text-xl uppercase tracking-wide text-white sm:text-2xl">
+                Talk to our mascot
+              </h3>
+            </div>
             <div className="mb-5 flex items-center justify-between gap-2">
               <div className="inline-flex rounded-full border border-white/[0.08] bg-black/50 p-1">
                 {(

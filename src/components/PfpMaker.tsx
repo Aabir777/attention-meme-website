@@ -24,6 +24,10 @@ import { downloadCanvas, sharePfpToX } from "@/lib/export";
 type ExportSize = 512 | 1024 | 2048;
 const PREVIEW = 512;
 
+function pickRandom<T>(items: T[]): T {
+  return items[Math.floor(Math.random() * items.length)]!;
+}
+
 export function PfpMaker() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [state, setState] = useState<SimplePfpState>(defaultSimplePfp);
@@ -81,6 +85,23 @@ export function PfpMaker() {
     }));
   };
 
+  /** Random expression + costume + hat + background */
+  const randomize = () => {
+    const expressionId = pickRandom(PFP_EXPRESSIONS).id;
+    const characterId = pickRandom(PFP_COSTUMES).id;
+    // ~70% chance of a hat so some combos stay clean
+    const hatId = Math.random() < 0.7 ? pickRandom(PFP_HATS).id : null;
+    const backgroundId = pickRandom(PFP_BACKGROUNDS).id;
+    setState((s) => ({
+      ...s,
+      expressionId,
+      characterId,
+      hatId,
+      backgroundId,
+      transparentBg: false,
+    }));
+  };
+
   const download = async (opts?: {
     size?: ExportSize;
     transparent?: boolean;
@@ -109,20 +130,29 @@ export function PfpMaker() {
       {/* ——— Live preview + backgrounds ——— */}
       <div className="flex flex-col gap-4">
         <div className="relative overflow-hidden rounded-3xl border border-[#f5d547]/25 bg-gradient-to-b from-[#16161c] to-[#0a0a0e] p-3 shadow-2xl shadow-black/50 sm:p-4">
-          <div className="mb-2 flex items-center justify-between px-1">
+          <div className="mb-2 flex items-center justify-between gap-2 px-1">
             <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#f5d547]/80">
               Live preview
             </span>
-            <span className="text-[11px] text-white/35">
-              {[
-                "Classic",
-                expression ? expression.name : "no expression",
-                costume && !costume.isBase ? costume.name : null,
-                hat ? hat.name : null,
-              ]
-                .filter(Boolean)
-                .join(" + ")}
-            </span>
+            <div className="flex min-w-0 items-center gap-2">
+              <span className="hidden truncate text-[11px] text-white/35 sm:inline">
+                {[
+                  "Classic",
+                  expression ? expression.name : "no expression",
+                  costume && !costume.isBase ? costume.name : null,
+                  hat ? hat.name : null,
+                ]
+                  .filter(Boolean)
+                  .join(", ")}
+              </span>
+              <button
+                type="button"
+                onClick={randomize}
+                className="shrink-0 rounded-full border border-[#f5d547]/40 bg-[#f5d547]/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-[#f5d547] transition hover:bg-[#f5d547]/20"
+              >
+                Randomize
+              </button>
+            </div>
           </div>
 
           <div className="relative mx-auto aspect-square w-full max-w-lg overflow-hidden rounded-2xl border border-white/10 bg-[#0c0c10]">
@@ -332,13 +362,25 @@ export function PfpMaker() {
       {/* ——— Expressions first, then Costumes ——— */}
       <div className="flex max-h-[min(92vh,960px)] flex-col rounded-3xl border border-white/10 bg-[#121212]/95 p-3 sm:p-4">
         <div className="shrink-0">
-          <h2 className="font-display text-lg uppercase tracking-wide text-white">
-            Build your PFP
-          </h2>
-          <p className="mt-1 text-sm text-white/50">
-            <span className="font-semibold text-[#f5d547]">Classic mascot</span>{" "}
-            starts blank. Choose expression, costume, then a hat.
-          </p>
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <h2 className="font-display text-lg uppercase tracking-wide text-white">
+                Build your PFP
+              </h2>
+              <p className="mt-1 text-sm text-white/50">
+                <span className="font-semibold text-[#f5d547]">Classic mascot</span>{" "}
+                starts blank. Choose expression, costume, then a hat, or hit
+                Randomize.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={randomize}
+              className="shrink-0 rounded-full bg-[#f5d547] px-3.5 py-2 text-xs font-bold uppercase tracking-wide text-black shadow-[0_0_16px_rgba(245,213,71,0.3)] transition hover:brightness-110"
+            >
+              Randomize
+            </button>
+          </div>
         </div>
 
         <div className="mt-4 min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain pr-0.5">
@@ -548,21 +590,21 @@ export function PfpMaker() {
             <span className="font-semibold text-[#f5d547]">Classic</span>
             {expression ? (
               <>
-                {" — Face: "}
+                {", Face: "}
                 <span className="text-white/85">{expression.name}</span>
               </>
             ) : (
-              <span className="text-white/40"> — no expression yet</span>
+              <span className="text-white/40">, no expression yet</span>
             )}
             {costume && !costume.isBase ? (
               <>
-                {" — "}
+                {", "}
                 <span className="text-white/85">{costume.name}</span>
               </>
             ) : null}
             {hat ? (
               <>
-                {" — "}
+                {", "}
                 <span className="text-white/85">{hat.name}</span>
               </>
             ) : null}

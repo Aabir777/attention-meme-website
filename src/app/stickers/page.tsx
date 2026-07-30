@@ -1,7 +1,7 @@
 import { StickersGallery } from "@/components/StickersGallery";
 
 export const metadata = {
-  title: "Sticker Pack | ATTENTION $attention",
+  title: "Sticker Pack, ATTENTION $attention",
   description:
     "Download free official Attention mascot stickers, logo marks, and brand art for memes and CT.",
 };

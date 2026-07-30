@@ -22,7 +22,7 @@ npm run dev
 | Meme maker | http://localhost:3000/maker?tab=meme |
 | PFP maker | http://localhost:3000/maker?tab=pfp |
 | Stickers | http://localhost:3000/stickers |
-| About | http://localhost:3000/about |
+| About (on home) | http://localhost:3000/#about |
 
 ## Environment
 
@@ -60,8 +60,8 @@ Redeploy after env changes so Open Graph and share links use the real domain.
 
 - **Chain:** Robinhood Chain (ETH · Robinhood Wallet / MetaMask · Pons)
 - **How to Buy** on the homepage matches that stack
-- **CA:** `0x24D73f200DaAB76eDA015FabCA1Ee09Fe73fdA14` (override with `NEXT_PUBLIC_CONTRACT_ADDRESS`)
-- **Launchpad:** https://www.ponsfamily.com/launchpad/0x24D73f200DaAB76eDA015FabCA1Ee09Fe73fdA14
+- **CA:** `0x71145ddD035b7613DD42BCF162DAc057999F58Be` (override with `NEXT_PUBLIC_CONTRACT_ADDRESS`)
+- **Launchpad:** https://www.ponsfamily.com/launchpad/0x71145ddD035b7613DD42BCF162DAc057999F58Be
 - **Share on X:** Chog-style text + maker link (attach PNG manually)
 - Large 3D model (`public/models/mascot.glb` ~54MB) loads when the stage is on-screen
 

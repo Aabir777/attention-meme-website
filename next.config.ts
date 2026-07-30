@@ -7,6 +7,13 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [{ source: "/favicon.ico", destination: "/favicon.png" }];
   },
+  // About is now a section on the home page (hash is client-only; land on home)
+  async redirects() {
+    return [
+      { source: "/about", destination: "/", permanent: true },
+      { source: "/about/", destination: "/", permanent: true },
+    ];
+  },
   // Serve large GLB + media with long cache (immutable asset hashes in filenames when used)
   headers: async () => [
     {

@@ -95,7 +95,7 @@ const RULES: { test: RegExp; replies: string[] }[] = [
   {
     test: /when (is )?(the )?contract|contract address|\bca\b|token address|when (do we get|will) (a )?ca|where('?s| is) (the )?ca/i,
     replies: [
-      "Official CA: 0x24D73f200DaAB76eDA015FabCA1Ee09Fe73fdA14 — buy on Pons. Always double-check the address.",
+      "Official CA: 0x71145ddD035b7613DD42BCF162DAc057999F58Be. Buy on Pons. Always double-check the address.",
     ],
   },
   {

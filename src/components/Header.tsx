@@ -31,9 +31,9 @@ export function Header() {
           <Link href="/" className="nav-link hidden sm:inline">
             Home
           </Link>
-          <Link href="/about" className="nav-link hidden sm:inline">
+          <a href="/#about" className="nav-link hidden sm:inline">
             About
-          </Link>
+          </a>
           {/* Always visible — core product on mobile */}
           <Link href="/maker?tab=meme" className="nav-link">
             Memes

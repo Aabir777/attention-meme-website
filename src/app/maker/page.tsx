@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { MakerApp } from "@/components/MakerApp";
 
 export const metadata = {
-  title: "Meme Generator | ATTENTION $attention",
+  title: "Meme Generator, ATTENTION $attention",
   description:
     "Generate Attention mascot memes. Templates, captions, PFP maker. The first asset.",
 };

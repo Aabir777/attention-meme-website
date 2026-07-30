@@ -4,127 +4,127 @@
     "name": "Bold Eye",
     "file": "bold-eye-symbol-with-reticle-design.png",
     "src": "/stickers/official/bold-eye-symbol-with-reticle-design.png",
-    "filename": "attention-bold-eye-symbol-with-reticle-design.png",
-    "description": "Bold Eye sticker"
+    "filename": "attention-bold-eye.png",
+    "description": "Bold Eye reticle mark"
   },
   {
     "id": "off-pose-01",
-    "name": "Pose 01",
+    "name": "Surprised",
     "file": "pose-01.png",
     "src": "/stickers/official/pose-01.png",
-    "filename": "attention-pose-01.png",
-    "description": "Pose 01 sticker"
+    "filename": "attention-surprised.png",
+    "description": "Surprised"
   },
   {
     "id": "off-pose-02",
-    "name": "Pose 02",
+    "name": "Sleep Mode",
     "file": "pose-02.png",
     "src": "/stickers/official/pose-02.png",
-    "filename": "attention-pose-02.png",
-    "description": "Pose 02 sticker"
+    "filename": "attention-sleep-mode.png",
+    "description": "Sleep Mode"
   },
   {
     "id": "off-pose-03",
-    "name": "Pose 03",
+    "name": "Hmm...",
     "file": "pose-03.png",
     "src": "/stickers/official/pose-03.png",
-    "filename": "attention-pose-03.png",
-    "description": "Pose 03 sticker"
+    "filename": "attention-hmm.png",
+    "description": "Hmm..."
   },
   {
     "id": "off-pose-04",
-    "name": "Pose 04",
+    "name": "Cool Vibes",
     "file": "pose-04.png",
     "src": "/stickers/official/pose-04.png",
-    "filename": "attention-pose-04.png",
-    "description": "Pose 04 sticker"
+    "filename": "attention-cool-vibes.png",
+    "description": "Cool Vibes"
   },
   {
     "id": "off-pose-05",
-    "name": "Pose 05",
+    "name": "Furious",
     "file": "pose-05.png",
     "src": "/stickers/official/pose-05.png",
-    "filename": "attention-pose-05.png",
-    "description": "Pose 05 sticker"
+    "filename": "attention-furious.png",
+    "description": "Furious"
   },
   {
     "id": "off-pose-06",
-    "name": "Pose 06",
+    "name": "Celebration",
     "file": "pose-06.png",
     "src": "/stickers/official/pose-06.png",
-    "filename": "attention-pose-06.png",
-    "description": "Pose 06 sticker"
+    "filename": "attention-celebration.png",
+    "description": "Celebration"
   },
   {
     "id": "off-pose-07",
-    "name": "Pose 07",
+    "name": "Sad",
     "file": "pose-07.png",
     "src": "/stickers/official/pose-07.png",
-    "filename": "attention-pose-07.png",
-    "description": "Pose 07 sticker"
+    "filename": "attention-sad.png",
+    "description": "Sad"
   },
   {
     "id": "off-pose-08",
-    "name": "Pose 08",
+    "name": "Amazed",
     "file": "pose-08.png",
     "src": "/stickers/official/pose-08.png",
-    "filename": "attention-pose-08.png",
-    "description": "Pose 08 sticker"
+    "filename": "attention-amazed.png",
+    "description": "Amazed"
   },
   {
     "id": "off-pose-09",
-    "name": "Pose 09",
+    "name": "Heart",
     "file": "pose-09.png",
     "src": "/stickers/official/pose-09.png",
-    "filename": "attention-pose-09.png",
-    "description": "Pose 09 sticker"
+    "filename": "attention-heart.png",
+    "description": "Heart"
   },
   {
     "id": "off-pose-10",
-    "name": "Pose 10",
+    "name": "Hello",
     "file": "pose-10.png",
     "src": "/stickers/official/pose-10.png",
-    "filename": "attention-pose-10.png",
-    "description": "Pose 10 sticker"
+    "filename": "attention-hello.png",
+    "description": "Hello"
   },
   {
     "id": "off-pose-11",
-    "name": "Pose 11",
+    "name": "Attention",
     "file": "pose-11.png",
     "src": "/stickers/official/pose-11.png",
-    "filename": "attention-pose-11.png",
-    "description": "Pose 11 sticker"
+    "filename": "attention-attention.png",
+    "description": "Attention"
   },
   {
     "id": "off-pose-12",
-    "name": "Pose 12",
+    "name": "Ignore the Noise",
     "file": "pose-12.png",
     "src": "/stickers/official/pose-12.png",
-    "filename": "attention-pose-12.png",
-    "description": "Pose 12 sticker"
+    "filename": "attention-ignore-the-noise.png",
+    "description": "Ignore the Noise"
   },
   {
     "id": "off-pose-13",
-    "name": "Pose 13",
+    "name": "Pay Attention",
     "file": "pose-13.png",
     "src": "/stickers/official/pose-13.png",
-    "filename": "attention-pose-13.png",
-    "description": "Pose 13 sticker"
+    "filename": "attention-pay-attention.png",
+    "description": "Pay Attention"
   },
   {
     "id": "off-pose-14",
-    "name": "Pose 14",
+    "name": "Locked In",
     "file": "pose-14.png",
     "src": "/stickers/official/pose-14.png",
-    "filename": "attention-pose-14.png",
-    "description": "Pose 14 sticker"
+    "filename": "attention-locked-in.png",
+    "description": "Locked In"
   },
   {
     "id": "off-pose-15",
-    "name": "Pose 15",
+    "name": "Stay Focused",
     "file": "pose-15.png",
     "src": "/stickers/official/pose-15.png",
-    "filename": "attention-pose-15.png",
-    "description": "Pose 15 sticker"
+    "filename": "attention-stay-focused.png",
+    "description": "Stay Focused"
   }
 ]

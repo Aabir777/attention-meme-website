@@ -52,13 +52,13 @@ export const PFP_COSTUMES: PfpCostume[] = [
  * exp-01 = Picsart_26-07-28_13-42-40-778.png
  */
 export const PFP_EXPRESSIONS: PfpExpression[] = [
-  { id: "exp-01", name: "Expression 1", src: "/pfp-expressions/exp-01.png" },
-  { id: "exp-02", name: "Expression 2", src: "/pfp-expressions/exp-02.png" },
-  { id: "exp-03", name: "Expression 3", src: "/pfp-expressions/exp-03.png" },
-  { id: "exp-04", name: "Expression 4", src: "/pfp-expressions/exp-04.png" },
-  { id: "exp-05", name: "Expression 5", src: "/pfp-expressions/exp-05.png" },
-  { id: "exp-06", name: "Expression 6", src: "/pfp-expressions/exp-06.png" },
-  { id: "exp-07", name: "Expression 7", src: "/pfp-expressions/exp-07.png" },
+  { id: "exp-01", name: "Happy", src: "/pfp-expressions/exp-01.png" },
+  { id: "exp-02", name: "Furious", src: "/pfp-expressions/exp-02.png" },
+  { id: "exp-03", name: "Shocked", src: "/pfp-expressions/exp-03.png" },
+  { id: "exp-04", name: "Meh", src: "/pfp-expressions/exp-04.png" },
+  { id: "exp-05", name: "Sly", src: "/pfp-expressions/exp-05.png" },
+  { id: "exp-06", name: "Heart Eyes", src: "/pfp-expressions/exp-06.png" },
+  { id: "exp-07", name: "Sad", src: "/pfp-expressions/exp-07.png" },
 ];
 
 /** Hats from Desktop/New folder (3) — optional, blank until selected */

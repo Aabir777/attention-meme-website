@@ -30,7 +30,7 @@ export function MakerApp() {
           <p className="mt-2 max-w-xl text-sm text-white/55 sm:text-base">
             {tab === "meme"
               ? "Pick a scene template, edit captions, download a PNG. Built for CT."
-              : "Classic mascot starts blank. Expression, costume, then hat — download a clean PFP."}
+              : "Classic mascot starts blank. Expression, costume, then hat. Download a clean PFP."}
           </p>
         </div>
 

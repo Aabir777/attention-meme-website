@@ -55,14 +55,14 @@ export const BRAND = {
    */
   contractAddress:
     process.env.NEXT_PUBLIC_CONTRACT_ADDRESS?.trim() ||
-    "0x24D73f200DaAB76eDA015FabCA1Ee09Fe73fdA14",
+    "0x71145ddD035b7613DD42BCF162DAc057999F58Be",
   /** Chain label for buy steps + UI */
   chain: "Robinhood Chain",
   chainShort: "ETH",
   /** Launchpad / buy venue (How to Buy CTA) */
   dexName: "Pons",
   dexUrl:
-    "https://www.ponsfamily.com/launchpad/0x24D73f200DaAB76eDA015FabCA1Ee09Fe73fdA14",
+    "https://www.ponsfamily.com/launchpad/0x71145ddD035b7613DD42BCF162DAc057999F58Be",
   /** Wallet recommendation */
   walletName: "Robinhood Wallet",
   walletUrl: "https://robinhood.com/wallet",
